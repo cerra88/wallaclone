@@ -1,0 +1,173 @@
+[ 
+        {
+        "name": "Bicicleta", 
+        "description": "Bicicleta de ultima generación de decathlon. La vendo por que me la he comprado y no la uso.",
+        "type":"sell",
+        "price": 230.15,
+        "photo": "/images/products/bici.jpg",
+        "tags": [ "lifestyle", "motor"]
+        }, 
+        
+        {
+        "name": "Skoda Karoq", 
+        "description": "Compro Karoq seminuevo (max 20.000km). Me mudo a Madrid centro necesito un coche grande de poco consumo ",
+        "type":"buy",
+        "price": 23005,
+        "photo": "/images/products/karoq.jpg",
+        "tags": ["motor"]
+        },
+        
+        {
+        "name": "iphoneX", 
+        "description": "Vendo iphone X por que no me convence. Me vuelvo a Android que asi puedo piratear cosas",
+        "type":"sell",
+        "price": 830.50,
+        "photo": "/images/products/iphone.jpg",
+        "tags": [ "lifestyle", "mobile"]
+        },
+        
+        {
+        "name": "XiaomiMi8", 
+        "description": "Interesado en un Xiaomi mi8 casi sin uso. Vengo de iphone pero quiero un android para piratear y que sea barato",
+        "type":"buy",
+        "price": 135,
+        "photo": "/images/products/xiaomimi8.jpg",
+        "tags": [ "lifestyle", "mobile"]
+        },
+
+        {
+        "name": "macbookpro15", 
+        "description": "Vendo Macbook Pro retina 15pulgadas por que me quiero comprar el nuevo. Tiene SSD de 500GB, va perfecto (ni un solo arañazo) ",
+        "type":"sell",
+        "price": 730.15,
+        "photo": "/images/products/macbookpro15.jpg",
+        "tags": [ "lifestyle", "work"]
+        },
+
+        {
+        "name": "SeatAteca", 
+        "description": "Vendo Seat Ateca con 100.000km. Vivo en el campo y se me queda pequeño para lo que lo necesito. Acepto intercambio + dinero por coches mas grandes tipo Q8, Discovery etc..",
+        "type":"sell",
+        "price": 25769,
+        "photo": "/images/products/ateca.jpg",
+        "tags": [ "motor"]
+        },
+
+        {
+        "name": "Patinete", 
+        "type":"buy",
+        "description": "Compro patinete electrico casi sin uso. Lo quiero para moverme por Madrid para ir a trabajar y arañar unos minutos para dormir mas por las mañanas",
+        "price": 85.95,
+        "photo": "/images/products/patinete.jpg",
+        "tags": [ "lifestyle", "motor"]
+        },
+
+        {
+        "name": "Servidor-Dell", 
+        "description": "Busco servidor Dell con una buena capacidad de almacenamiento (mas de 10TB) y buen procesador",
+        "type":"buy",
+        "price": 6000,
+        "photo": "/images/products/servidor-dell.jpg",
+        "tags": ["work"]
+        },
+
+        {
+        "name": "MonitorLG", 
+        "description": "Compro Monitor LG Gaming curvo. Se me ha roto el mio y busco algo de calidad a buen precio",
+        "type":"buy",
+        "price": 290,
+        "photo": "/images/products/monitorlg.jpg",
+        "tags": [ "lifestyle", "work"]
+        },
+
+        {
+        "name": "gafas-hawkers", 
+        "description": "Vendo Hawkers edicion limitada Forocoches. Date prisa Shur que me la quitan de las manos...XD",
+        "type":"sell",
+        "price": 15,
+        "photo": "/images/products/gafashawkers.jpg",
+        "tags": [ "lifestyle"]
+        },
+
+        {
+        "name": "BMWGS", 
+        "description": "Vendo BMW GS nuevecita!",
+        "type":"sell",
+        "price": 9230,
+        "photo": "/images/products/bmwgs.jpg",
+        "tags": ["motor"]
+        },
+
+        {
+        "name": "SamsungS10", 
+        "description": "Busco un Samsung S10 a buen precio. Interesados mandarme MP",
+        "type":"buy",
+        "price": 430.15,
+        "photo": "/images/products/samsungs10.jpg",
+        "tags": [ "mobile", "lifestyle"]
+        },
+
+        {
+        "name": "ventilador", 
+        "description": "Vendo ventilador para verano. En breve lo vamos a necesitar... las olas de calor seran infernales.. son 28€ que luego lo agradecereis cuando se os peguen las sabanas en verano",
+        "type":"sell",
+        "price": 28,
+        "photo": "/images/products/ventilador.jpg",
+        "tags": ["lifestyle"]
+        },
+
+        {
+        "name": "Soporte-macbook", 
+        "description": "Interesado en comprar un soporte para Macbook pro (valido hasta 16 pulgadas). Lo quiero para trabajar desde casa y conectarlo a un monitor",
+        "type":"buy",
+        "price": 59.85,
+        "photo": "/images/products/soporte-macbook.jpg",
+        "tags": [ "work", "lifestyle"]
+        },
+
+        {
+        "name": "Xiaomi-Mi9T", 
+        "description": "Vendo xiaomi Mi9T. La camara retractil es una pasada, todo pantalla, como nuevo!!",
+        "type":"sell",
+        "price": 223.99,
+        "photo": "/images/products/xiaomi-mi3.jpg",
+        "tags": [ "mobile", "lifestyle"]
+        },
+
+        {
+        "name": "SamsungNote10", 
+        "description": "Vendo Note 10. Pedazo de telefono sin uso, entrego con factura de compra",
+        "type":"sell",
+        "price": 830.15,
+        "photo": "/images/products/samsungnote10.jpg",
+        "tags": [ "mobile", "lifestyle"]
+        },
+
+        {
+        "name": "cargador-multi-usb", 
+        "description": "Compro cargador usb para el coche, casa etc... estoy cansado de quedarme sin bateria",
+        "type":"buy",
+        "price": 39,
+        "photo": "/images/products/cargador-multi-usb.jpg",
+        "tags": [ "mobile", "lifestyle", "work"]
+        },
+
+        {
+        "name": "cargador-usb-coche", 
+        "description": "Vendo cargador USB para todos los coches. No te quedes sin bateria nunca mas...",
+        "type":"sell",
+        "price": 10,
+        "photo": "/images/products/cargador-usb-coche.jpg",
+        "tags": [ "mobile", "motor"]
+        },
+
+        {
+        "name": "mesa-despacho", 
+        "description": "Compro mesa de trabajo para despachos y puestos de oficina. Acabado en roble de alta calidad a ser posible",
+        "type":"buy",
+        "price": 330,
+        "photo": "/images/products/mesa-despacho.jpg",
+        "tags": [ "work", "lifestyle"]
+        }
+]
+        
