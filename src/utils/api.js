@@ -1,5 +1,6 @@
 import axios from 'axios';
 const API_URL = `http://localhost:3001/api/product`
+const API_URL_FILTERS = `http://localhost:3001/api/product?`
 
 
 export const api = () => {
@@ -25,12 +26,12 @@ export const api = () => {
 
     },
 
-    getAdsbySearch: async (name, price, tagSelected, venta) => {
+    getAdsbySearch: async (name, price, tagSelected, type) => {
         
-        let endPoint = `${API_URL}`
-        
+        let endPoint = `${API_URL_FILTERS}`
+        console.log(endPoint)
         if(tagSelected){
-          endPoint = `${API_URL}?tags=${tagSelected}`
+          endPoint = `${API_URL}?&tags=${tagSelected}`
           
         }if(price){
           endPoint = `${endPoint}&price=0-${price}`
@@ -39,8 +40,8 @@ export const api = () => {
         }if(name){
           endPoint = `${endPoint}&name=${name}`
           
-        }if(venta){
-          endPoint = `${endPoint}&venta=${venta}`
+        }if(type){
+          endPoint = `${endPoint}&type=${type}`
           
         }
         console.log(endPoint)

@@ -5,6 +5,8 @@ import AdsListHook from "./AdsListHook"
 import { Navbar, Button, Form, FormControl, Nav, Col, InputGroup  } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import '../../css/styles.css';
+import Pagination from 'rc-pagination';
+import 'rc-pagination/assets/index.css';
 // import UserContext from '../../context/user';
 // import {getUser} from '../../utils/storage'
 import {connect} from 'react-redux';
@@ -25,11 +27,14 @@ export class Adverts extends React.Component {
       price:"",
       type:"",
       loading: true,
-      
+      currentPage: 1,
+      postsPerPage: 5
 
     };
-    
-  }
+
+  
+  
+}
   
 
   componentDidMount(){
@@ -43,6 +48,7 @@ export class Adverts extends React.Component {
     
     this.myTags();
     this.myAds();
+    
     
   }
   
@@ -143,10 +149,28 @@ myAds = () => {
     );
   };
 
+  
+
+
+  onPageChange = (page) => {
+    console.log(page)
+    this.setState({
+      currentPage: page,
+    });
+
+  }
+
 
   render() {
     const { ads } = this.state;
-    console.log(ads)
+    const indexOfLastAds = this.state.currentPage * this.state.postsPerPage;
+    const indexOfFirstAds = indexOfLastAds - this.state.postsPerPage;
+    const currentAds = ads.slice(indexOfFirstAds, indexOfLastAds);
+    console.log("indexofFirstAds", indexOfFirstAds)
+    console.log("indexofLastAds", indexOfLastAds)
+    console.log("currentAds", currentAds)
+    console.log("curretPage = ",this.state.currentPage)
+    console.log("total ads= ",this.state.ads.length)
     // const  ads  = this.props.ads;
     const { tags } = this.state;
     // const searchAd = this.props.searchAd
@@ -203,7 +227,7 @@ myAds = () => {
         </Form.Group>
         <Form.Group as={Col} md="6" controlId="validationCustom02">
           <Form.Label>Tags</Form.Label>
-          <Form.Control as="select" name="tagSelected" required autoFocus={true}  onChange={this.onInputChange}>
+          <Form.Control as="select" name="tagSelected"  autoFocus={true}  onChange={this.onInputChange}>
                     <option className="field" value="" >Choose your Tag</option>
             {
                 tags.map(element =>(
@@ -222,8 +246,8 @@ myAds = () => {
           <Form.Label>Seller or Buyer</Form.Label>
           <Form.Control as="select" name="type" size="" autoFocus={true}  onChange={this.onInputChange}>
                     <option className="field" value="" name="" >Choose an option</option>
-                    <option className="field"  value="sell" >Para comprar</option>
-                    <option className="field"  value="buy" >Para vender</option>
+                    <option className="field"  value="sell" >Venta de articulos</option>
+                    <option className="field"  value="buy" >Demanda de articulos</option>
 
           </Form.Control>
         </Form.Group>
@@ -256,7 +280,7 @@ myAds = () => {
 
             ads 
             && 
-            <AdsList ads={ads} />
+            <AdsList ads={currentAds} />
 
           // searchAd? (
           //   <AdsList ads={searchAd} />
@@ -266,6 +290,11 @@ myAds = () => {
 
 
         }
+
+        <Pagination onChange={this.onPageChange} current={this.state.currentPage} total={ Math.ceil(this.state.ads / this.state.postsPerPage) } />
+
+        <br></br>
+        <br></br>
       </React.Fragment>
     );
   }

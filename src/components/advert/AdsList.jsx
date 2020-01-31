@@ -26,9 +26,9 @@ render() {
                         <Card.Text><h5>{ad.price}€</h5></Card.Text>
                         {
                             ad.type === "sell" ?(
-                            <Button className="adTypeButton" variant="success" >{ad.type}</Button>
+                            <Button className="adTypeButton" variant="success" >Vendo</Button>
                             ):
-                            (<Button className="adTypeButton" variant="warning" >{ad.type}</Button>)
+                            (<Button className="adTypeButton" variant="warning" >Compro</Button>)
                             
 
                         }

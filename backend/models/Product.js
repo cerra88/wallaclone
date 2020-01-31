@@ -4,20 +4,21 @@ const mongoose = require('mongoose');
 
 //Defino el Schema
 
-const productSchema = mongoose.Schema({
-    name:           String,
-    description:    String,
-    type:           String,
-    price:          Number,
-    photo:          String,
-    tags:           Array,
-},
-{
-    /**
-    * Añade las propiedades de created y updated
-    */
-    timestamps: true,
-}
+const productSchema = mongoose.Schema(
+    {
+        name:           String,
+        description:    String,
+        type:           String,
+        price:          Number,
+        photo:          String,
+        tags:           Array,
+    },  
+    {
+        /**
+        * Añade las propiedades de created y updated
+        */
+        timestamps: true,
+    }
 );  
 
 
