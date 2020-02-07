@@ -5,8 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+
+
 
 var app = express();
 
@@ -52,12 +52,14 @@ app.locals.title = 'NodePop';
 /**
  * RUTAS DE MI API
  */
-const loginController = require('./routes/api/loginController');
+const loginController = require('./controllers/loginController');
 const jwtAuth = require('./lib/jwtAuth');
 
 app.post('/authenticate', loginController.loginJWT);   
 // app.use('/api/product', jwtAuth(), require('./routes/api/products'));
-app.use('/api/product', require('./routes/api/products'));
+app.use('/api/product', require('./controllers/products'));
+app.use('/api/register', require('./controllers/users'));
+
 
 
 
@@ -66,8 +68,7 @@ app.use('/api/product', require('./routes/api/products'));
  * Rutas de la aplicación web.
  */
 // app.use('/', jwtAuth(), require('./routes/api/products'));
-app.use('/users', usersRouter);
-app.use('/change-locale', require('./routes/api/change-locale'));
+app.use('/change-locale', require('./controllers/change-locale'));
 
 
 // catch 404 and forward to error handler

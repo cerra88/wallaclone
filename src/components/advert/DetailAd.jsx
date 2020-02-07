@@ -19,10 +19,10 @@ export class DetailAd extends React.Component {
   }
 
   componentDidMount(){
-    const user = this.props.user;
-    if(Object.keys(user).length === 0){
-      this.props.history.push("/register");
-    }
+    // const user = this.props.user;
+    // if(Object.keys(user).length === 0){
+    //   this.props.history.push("/register");
+    // }
 
 
     // const userFromContext = this.context.user;

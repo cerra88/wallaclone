@@ -36,7 +36,7 @@ export class App extends React.Component {
           <Switch>
               <Route exact path="/" component={Register} />
               <Route exact path="/advert" component={List} />
-              <Route exact path="/advert/:adId" component={DetailAd} />
+              <Route exact path="/advert/:adId/:name" component={DetailAd} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/editnew/:adId" component={Editnew} />
               <Route exact path="/editnew" component={Editnew} />

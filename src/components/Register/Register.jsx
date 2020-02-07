@@ -6,6 +6,9 @@ import Register from '../Register/Register'
 import {setUser} from './../../utils/storage';
 import {connect} from 'react-redux';
 import { setReduxUser } from '../../store/actions'
+import api from "../../utils/api";
+
+const { newUser } = api();
 
 
 export class Login extends React.Component {
@@ -15,10 +18,10 @@ export class Login extends React.Component {
         console.log(props)
         this.state = {
           user:{
-            name: '',
-            surname: '',
-            tags: [],
-            isRegister: false,
+            username: '',
+            email: '',
+            password: '',
+            
           }
         };
         this.onInputChange = this.onInputChange.bind(this);
@@ -33,14 +36,14 @@ export class Login extends React.Component {
 
   componentDidMount(){
 
-    const user = localStorage.getItem('userData');
-    if(user !== null){
-      this.props.setUserToRedux(user)
-      const userReduxUpdate = this.props.setUserToRedux(user);
-      console.log(userReduxUpdate)
-      this.props.history.push("/advert");
+    // const user = localStorage.getItem('userData');
+    // if(user !== null){
+    //   this.props.setUserToRedux(user)
+    //   const userReduxUpdate = this.props.setUserToRedux(user);
+    //   console.log(userReduxUpdate)
+    //   this.props.history.push("/advert");
     }
-  }
+  
 
 
 
@@ -50,20 +53,29 @@ export class Login extends React.Component {
     console.log(this.props);
     
 
-    if (this.state.user.name.trim().length <= 3) {
+    if (this.state.user.username.trim().length <= 3) {
       alert("The name must be bigger than 3 characters");
       return false;
     }
-    if (this.state.user.surname.trim().length <= 3) {
+    if (this.state.user.email.trim().length <= 3) {
       alert("The surname must be bigger than 3 characters");
       return false;
     }
     
     // this.context.updateUser(this.state.user);
+
+    try {
+      newUser(this.state.user).then()
+    } catch (error) {
+      console.log(error)
+    }
     
+
     this.props.history.push("/advert");
     setUser(this.state.user);
     this.props.setUserToRedux(this.state.user)
+
+   
     
     
     
@@ -95,18 +107,23 @@ export class Login extends React.Component {
           <div className="field">
             <label className="label is-size-6"></label>
             <div className="control">
-              <input className="input" type="text" placeholder="Name" name="name" onChange={this.onInputChange}/>
+              <input className="input" type="text" placeholder="Username" name="username" onChange={this.onInputChange}/>
             </div>
           </div>
 
           <div className="field">
             <label className="label"></label>
             <div className="control">
-              <input className="input" type="text" placeholder="Surnname" name="surname" onChange={this.onInputChange} />
+              <input className="input" type="email" placeholder="email@gmail.com" name="email" onChange={this.onInputChange} />
             </div>
           </div>
         
-        <Tags tagHandle={this.onInputChange}/>
+          <div className="field">
+            <label className="label"></label>
+            <div className="control">
+              <input className="input" type="password" placeholder="Password" name="password" onChange={this.onInputChange} />
+            </div>
+          </div>
         
         <div className="field is-grouped">
             <div className="control">
@@ -121,8 +138,8 @@ export class Login extends React.Component {
       )
     }
     
+  }
 
-}
 
 function mapDispatchToProps(dispatch)  {
   return{

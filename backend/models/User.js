@@ -6,8 +6,9 @@ const bcrypt = require('bcrypt');
 
 // definimos un esquema
 const usuarioSchema = mongoose.Schema({
+  username: String,
   email: String,
-  password: String,
+  hash: String,
 });
 
 usuarioSchema.statics.hashPassword = function(plainPassword) {

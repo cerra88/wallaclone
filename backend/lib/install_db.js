@@ -1,7 +1,7 @@
 'use strict';
 
 const db = require('../lib/connectMongoose');
-const Usuario = require('../models/Usuario');
+const Usuario = require('../models/User');
 const bcrypt = require('bcrypt')
 
 db.once('open', async () => {

@@ -17,7 +17,7 @@ export const api = () => {
     
     getAds: async (query) => {
         try {
-          const response = await axios.get(API_URL);
+          const response = await axios.get(`${API_URL}?sort=createdAt`);
           return response.data.result;  
         } catch (error) {
           throw(error)
@@ -57,10 +57,10 @@ export const api = () => {
         return response.data.result;
     },
 
-    findAdByID: async (id) => {
-        const endPoint = `http://localhost:3001/apiv1/anuncios/${id}`;
+    findAdByID: async (id, name) => {
+        const endPoint = `http://localhost:3001/api/product/item/${id}/`;
         const response = await axios.get(endPoint);
-      return response.data.result;
+        return response.data.result;
         
       },
       
@@ -104,6 +104,24 @@ export const api = () => {
         method: 'post',
         url: endPoint,
         data: advert
+      });
+      return res.data;
+    },
+
+
+    newUser: async (user) => {
+  
+      const endPoint = `http://localhost:3001/api/register`;
+      // if(advert.venta === "true"){
+      //   advert.venta = true;
+      // }else{
+      //   advert.venta = false;
+      // }
+      
+			const res = await axios({
+        method: 'post',
+        url: endPoint,
+        data: user
       });
       return res.data;
     }

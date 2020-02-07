@@ -1,7 +1,6 @@
 import React from "react";
 import api from "../../utils/api";
 import AdsList from "./AdsList"
-import AdsListHook from "./AdsListHook"
 import { Navbar, Button, Form, FormControl, Nav, Col, InputGroup  } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import '../../css/styles.css';
@@ -28,7 +27,7 @@ export class Adverts extends React.Component {
       type:"",
       loading: true,
       currentPage: 1,
-      postsPerPage: 5
+      postsPerPage: 6
 
     };
 
@@ -153,7 +152,6 @@ myAds = () => {
 
 
   onPageChange = (page) => {
-    console.log(page)
     this.setState({
       currentPage: page,
     });
@@ -163,14 +161,10 @@ myAds = () => {
 
   render() {
     const { ads } = this.state;
+
     const indexOfLastAds = this.state.currentPage * this.state.postsPerPage;
     const indexOfFirstAds = indexOfLastAds - this.state.postsPerPage;
     const currentAds = ads.slice(indexOfFirstAds, indexOfLastAds);
-    console.log("indexofFirstAds", indexOfFirstAds)
-    console.log("indexofLastAds", indexOfLastAds)
-    console.log("currentAds", currentAds)
-    console.log("curretPage = ",this.state.currentPage)
-    console.log("total ads= ",this.state.ads.length)
     // const  ads  = this.props.ads;
     const { tags } = this.state;
     // const searchAd = this.props.searchAd
@@ -242,7 +236,7 @@ myAds = () => {
         
       </Form.Row>
       <Form.Row>
-      <Form.Group as={Col} md="6" controlId="validationCustom02">
+      <Form.Group as={Col} md="6" controlId="validationCustom03">
           <Form.Label>Seller or Buyer</Form.Label>
           <Form.Control as="select" name="type" size="" autoFocus={true}  onChange={this.onInputChange}>
                     <option className="field" value="" name="" >Choose an option</option>
@@ -291,7 +285,7 @@ myAds = () => {
 
         }
 
-        <Pagination onChange={this.onPageChange} current={this.state.currentPage} total={ Math.ceil(this.state.ads / this.state.postsPerPage) } />
+        <Pagination onChange={this.onPageChange} current={this.state.currentPage} total={ Math.ceil(this.state.ads.length / this.state.postsPerPage)*10 } />
 
         <br></br>
         <br></br>

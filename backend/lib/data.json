@@ -151,7 +151,7 @@
         "photo": "/images/products/cargador-multi-usb.jpg",
         "tags": [ "mobile", "lifestyle", "work"]
         },
-
+        
         {
         "name": "cargador-usb-coche", 
         "description": "Vendo cargador USB para todos los coches. No te quedes sin bateria nunca mas...",
@@ -168,6 +168,17 @@
         "price": 330,
         "photo": "/images/products/mesa-despacho.jpg",
         "tags": [ "work", "lifestyle"]
+        },
+
+        {
+        "name": "mesa-despacho", 
+        "description": "Interesado en vender varias mesas de despachos por liquidación de la empresa. Acabado en roble de alta calidad a ser posible",
+        "type":"sell",
+        "price": 120,
+        "photo": "/images/products/mesa-despacho.jpg",
+        "tags": [ "work", "lifestyle"]
         }
+
+ 
 ]
         

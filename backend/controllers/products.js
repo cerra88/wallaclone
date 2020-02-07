@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const Product = require('./../../models/Product')
+const Product = require('../models/Product')
 const cote = require('cote');
 
 const storage = multer.diskStorage({
@@ -32,7 +32,7 @@ try {
     const filter = {};
 
     if(name){
-        filter.name = new RegExp('^' + req.query.name, "i"); //El "i" es para que sea insensible a mayusculas/minusculas
+        filter.name = new RegExp('.*' + req.query.name, "i"); //El "i" es para que sea insensible a mayusculas/minusculas
     }
 
     if(type){
@@ -74,6 +74,26 @@ res.json({success: true, result: products});
     
 }
 });
+
+router.get('/item/:id', async (req, res, next) => {
+
+    try {
+      const _id = req.params.id;
+      
+  
+      const element = await Product.findById(_id).exec();
+  
+      if (!element) {
+        res.status(404).json({ success: false });
+        return;
+      }
+  
+      res.json({ success: true, result: element });
+  
+    } catch(err) {
+      next(err);
+    }
+  });
 
 
 

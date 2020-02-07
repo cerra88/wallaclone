@@ -2,15 +2,32 @@ import React, { Component } from 'react';
 import { Card, ButtonToolbar, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import '../../css/styles.css';
+import Moment from 'react-moment';
 
 
 //import Movie from '../Movies/Movies'
 
 
 export default class AdsList extends Component {
-   
+
+    constructor(props){
+        super(props)
+        this.dateFromObjectId = this.dateFromObjectId.bind(this);
+    
+        this.state = {}
+        
+      }
+
+dateFromObjectId = (objectId) => {
+        return new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
+    };
+
+
+
 
 render() {
+    
+
     return (
     <React.Fragment>
             
@@ -18,12 +35,12 @@ render() {
                 {this.props.ads.map(ad => (
                     
                 <Card key={ad._id} style={{flex: 1, width: 350}}>
-                    <Link to={`/advert/${ad._id}`} className="card-header-title"> <Card.Img variant="top" fluid='true' src={`http://localhost:3001/${ad.photo}`     } /> </Link>
+                    <Link to={`/advert/${ad._id}/${ad.name}`} className="card-header-title"> <Card.Img variant="top" fluid='true' src={`http://localhost:3001/${ad.photo}`     } /> </Link>
                     
                     <Card.Body>
                         <Link to={`/advert/${ad._id}`} className="card-header-title"><Card.Title>{ad.name}</Card.Title> </Link>
                         <Card.Text>{ad.description}</Card.Text>
-                        <Card.Text><h5>{ad.price}€</h5></Card.Text>
+                        <h5><Card.Text>{ad.price}€</Card.Text></h5>
                         {
                             ad.type === "sell" ?(
                             <Button className="adTypeButton" variant="success" >Vendo</Button>
@@ -47,7 +64,9 @@ render() {
                         </ButtonToolbar>
                     </Card.Body>
                     <Card.Footer>
-                        <small className="text-muted">Created: {ad.updatedAt.split('T')[0]}</small>
+                        {/* <small className="text-muted">Fecha: {ad.createdAt.split('T')[0].split('-')[2] + '-' + ad.createdAt.split('T')[0].split('-')[1] + '-' + ad.createdAt.split('T')[0].split('-')[0]}</small> */}
+                        {/* <small className="text-muted">Fecha: {  JSON.stringify(this.dateFromObjectId(ad._id)).split('"')  }</small> */}
+                        <small><Moment format="DD/MM/YYYY HH:mm">{'Fecha: ', this.dateFromObjectId(ad._id)}</Moment></small>
                         <br></br>
                     </Card.Footer>
                 </Card>
