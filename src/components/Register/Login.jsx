@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import { setReduxUser } from '../../store/actions'
 import api from "../../utils/api";
 
-const { newUser } = api();
+const { findUser } = api();
 
 
 export class Login extends React.Component {
@@ -19,8 +19,7 @@ export class Login extends React.Component {
         this.state = {
           user:{
             username: '',
-            email: '',
-            pass: '',
+            password: '',
             
           }
         };
@@ -28,20 +27,6 @@ export class Login extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
         
         
-    }
-
-   
-
-
-
-  componentDidMount(){
-
-    // const user = localStorage.getItem('userData');
-    // if(user !== null){
-    //   this.props.setUserToRedux(user)
-    //   const userReduxUpdate = this.props.setUserToRedux(user);
-    //   console.log(userReduxUpdate)
-    //   this.props.history.push("/advert");
     }
   
 
@@ -57,33 +42,32 @@ export class Login extends React.Component {
       alert("The name must be bigger than 3 characters");
       return false;
     }
-    if (this.state.user.email.trim().length <= 3) {
-      alert("The surname must be bigger than 3 characters");
-      return false;
+    if(!this.state.user.password){
+      alert("The password is required");
     }
-    
-    // this.context.updateUser(this.state.user);
 
-    try {
-      newUser(this.state.user).then()
-    } catch (error) {
-      console.log(error)
-    }
+      findUser(this.state.user)
+      .then(res => {
+          alert('Looged')
+          this.props.history.push("/advert");
+      })
+      .catch(error => { 
+        alert('invaild credentilas', error)
+        this.props.history.push("/login");
+      })
+    
     
 
-    this.props.history.push("/advert");
-    setUser(this.state.user);
-    this.props.setUserToRedux(this.state.user)
+    
+    // setUser(this.state.user);
+    // this.props.setUserToRedux(this.state.user)
 
-   
-    
-    
-    
     return true;
   };
 
   onInputChange = (event) => {
     const {name, value} = event.target;
+    
     this.setState({
       user: {
         ...this.state.user,
@@ -110,24 +94,16 @@ export class Login extends React.Component {
               <input className="input" type="text" placeholder="Username" name="username" onChange={this.onInputChange}/>
             </div>
           </div>
-
           <div className="field">
             <label className="label"></label>
             <div className="control">
-              <input className="input" type="email" placeholder="email@gmail.com" name="email" onChange={this.onInputChange} />
-            </div>
-          </div>
-        
-          <div className="field">
-            <label className="label"></label>
-            <div className="control">
-              <input className="input" type="password" placeholder="Password" name="pass" onChange={this.onInputChange} />
+              <input className="input" type="password" placeholder="Password" name="password" onChange={this.onInputChange} />
             </div>
           </div>
         
         <div className="field is-grouped">
             <div className="control">
-                <button className="button is-warning">Submit</button>
+                <button className="button is-warning">Login</button>
             </div>
                       
         </div>

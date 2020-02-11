@@ -51,6 +51,7 @@ export class DetailAd extends React.Component {
     // const { ad } = this.state;
     const ad  = this.props.detailAd;
     console.log(this.props.detailAd)
+    
     // console.log(this.props.isFetching)
 
     if(!ad){
@@ -143,6 +144,7 @@ export class DetailAd extends React.Component {
               <div className="level is-mobile">
                 <div className="level-left">
                   <div className="level-item"><a href=".">Add to favorites</a></div>
+                  {/* <small>{ad.user}</small> */}
                 </div>
                 <div className="level-right">
                   {/* <div class="level-item">Share</div><a class="level-item" href="#"><img src="placeholder/icons/facebook-f.svg" alt=""/></a><a class="level-item" href="#"><img src="placeholder/icons/twitter.svg" alt=""/></a><a class="level-item" href="#"><img src="placeholder/icons/instagram.svg" alt=""/></a> */}

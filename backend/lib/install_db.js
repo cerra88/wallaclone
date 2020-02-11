@@ -1,7 +1,7 @@
 'use strict';
 
 const db = require('../lib/connectMongoose');
-const Usuario = require('../models/User');
+const User = require('../models/User');
 const bcrypt = require('bcrypt')
 
 db.once('open', async () => {
@@ -18,11 +18,12 @@ db.once('open', async () => {
 });
 
 async function initUsuarios() {
-  await Usuario.deleteMany();
-  await Usuario.insertMany([
+  await User.deleteMany();
+  await User.insertMany([
     {
+      username: 'angel',
       email: 'user@example.com',
-      password: await Usuario.hashPassword('1234')
+      password: await User.hashPassword('1234')
     }
   ]);
 

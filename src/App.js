@@ -1,5 +1,6 @@
 import React from 'react';
 import Register from "./components/Register/Register";
+import Login from "./components/Register/Login";
 import List from "./components/advert/List"
 import DetailAd from "./components/advert/DetailAd"
 import Editnew from "./components/advert/Editnew"
@@ -38,6 +39,7 @@ export class App extends React.Component {
               <Route exact path="/advert" component={List} />
               <Route exact path="/advert/:adId/:name" component={DetailAd} />
               <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
               <Route exact path="/editnew/:adId" component={Editnew} />
               <Route exact path="/editnew" component={Editnew} />
               <Route component={List}/>

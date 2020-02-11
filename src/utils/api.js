@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = `http://localhost:3001/api/product`
+const API_URL = `/api/product`
 const API_URL_FILTERS = `http://localhost:3001/api/product?`
 
 
@@ -7,13 +7,13 @@ export const api = () => {
     
   return {
 
-    getTagsAds: async (query) => {
+    // getTagsAds: async (query) => {
         
-        const endPoint = `http://localhost:3001/apiv1/anuncios?tag=${query}`
-        const response = await axios.get(endPoint);
-        return response.data.results;
+    //     const endPoint = `http://localhost:3001/apiv1/anuncios?tag=${query}`
+    //     const response = await axios.get(endPoint);
+    //     return response.data.results;
 
-    },
+    // },
     
     getAds: async (query) => {
         try {
@@ -52,13 +52,13 @@ export const api = () => {
 
     findAds: async (query) => {
         
-        const endPoint = `http://localhost:3001/api/product?name=${query}`;
+        const endPoint = `${API_URL}?name=${query}`;
         const response = await axios.get(endPoint);
         return response.data.result;
     },
 
     findAdByID: async (id, name) => {
-        const endPoint = `http://localhost:3001/api/product/item/${id}/`;
+        const endPoint = `${API_URL}/item/${id}/`;
         const response = await axios.get(endPoint);
         return response.data.result;
         
@@ -111,12 +111,27 @@ export const api = () => {
 
     newUser: async (user) => {
   
-      const endPoint = `http://localhost:3001/api/register`;
+      const endPoint = `/api/register`;
       // if(advert.venta === "true"){
       //   advert.venta = true;
       // }else{
       //   advert.venta = false;
       // }
+      
+			const res = await axios({
+        method: 'post',
+        url: endPoint,
+        data: user
+      });
+      return res.data;
+    },
+
+
+
+    findUser: async (user) => {
+      
+      const endPoint = `/api/authenticate`;
+
       
 			const res = await axios({
         method: 'post',

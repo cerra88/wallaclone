@@ -1,6 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 //Defino el Schema
 
@@ -12,6 +13,7 @@ const productSchema = mongoose.Schema(
         price:          Number,
         photo:          String,
         tags:           Array,
+        user:           { type: Schema.ObjectId, ref: "User" } 
     },  
     {
         /**
@@ -29,6 +31,7 @@ productSchema.statics.list = function({filter, skip, limit, fields, sort}){
     query.limit(limit);
     query.select(fields);
     query.sort(sort);
+    query.populate('user')
 
     return query.exec();
 };

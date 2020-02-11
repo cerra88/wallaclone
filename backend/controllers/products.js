@@ -5,7 +5,9 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const Product = require('../models/Product')
+// const User = require('../models/User')
 const cote = require('cote');
+
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -62,18 +64,24 @@ try {
                 filter.price = {'$lte': campo2 };
             }
         }
-
     }
 
-const products = await Product.list({filter, skip, limit, fields, sort});
+        // filter.user =  Product.find({}, function(err, product) {
+        //     User.populate(product, {path: "user"}, function(err, product){
+        //         // res.status(200).send(product)
+        //     })
+        // })
 
+
+const products = await Product.list({filter, skip, limit, fields, sort});
 res.json({success: true, result: products});
 
-} catch (err) {
+}catch (err) {
     next(err);
     
 }
 });
+
 
 router.get('/item/:id', async (req, res, next) => {
 
@@ -81,7 +89,7 @@ router.get('/item/:id', async (req, res, next) => {
       const _id = req.params.id;
       
   
-      const element = await Product.findById(_id).exec();
+      const element = await Product.findById(_id).populate('user').exec();
   
       if (!element) {
         res.status(404).json({ success: false });

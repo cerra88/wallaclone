@@ -1,10 +1,14 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 
+
+const MONGO_URL = 'mongodb://127.0.0.1:27017/nodepop'
 
 
 
@@ -23,11 +27,24 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Configurar cabeceras y cors
+
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+//   res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+//   next();
+// });
+
+
+
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-  res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Request-With, Content-Type, Accept, Authorization');
+  if(req.method === 'OPTIONS'){
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    return res.status(200).json({});
+  }
   next();
 });
 
@@ -55,17 +72,33 @@ app.locals.title = 'NodePop';
 const loginController = require('./controllers/loginController');
 const jwtAuth = require('./lib/jwtAuth');
 
-app.post('/authenticate', loginController.loginJWT);   
+app.post('/api/authenticate', loginController.loginJWT);   
 // app.use('/api/product', jwtAuth(), require('./routes/api/products'));
 app.use('/api/product', require('./controllers/products'));
 app.use('/api/register', require('./controllers/users'));
 
 
+/**
+ * Configuramos la sesion del user
+ */
+
+ app.use(session({
+   secret: 'estoesunsecretomuySecret0queN0seC0mp4rte',
+   resave: true,
+   saveUninitialized: true,
+  //  store: new MongoStore({
+  //    url: MONGO_URL,
+  //    autoReconnect: true,
+     
+  //  })
+
+
+ }))
 
 
 
 /**
- * Rutas de la aplicación web.
+ * Rutas para las vistas
  */
 // app.use('/', jwtAuth(), require('./routes/api/products'));
 app.use('/change-locale', require('./controllers/change-locale'));

@@ -27,6 +27,8 @@ dateFromObjectId = (objectId) => {
 
 render() {
     
+    console.log(this.props.ads)
+    
 
     return (
     <React.Fragment>
@@ -64,9 +66,8 @@ render() {
                         </ButtonToolbar>
                     </Card.Body>
                     <Card.Footer>
-                        {/* <small className="text-muted">Fecha: {ad.createdAt.split('T')[0].split('-')[2] + '-' + ad.createdAt.split('T')[0].split('-')[1] + '-' + ad.createdAt.split('T')[0].split('-')[0]}</small> */}
-                        {/* <small className="text-muted">Fecha: {  JSON.stringify(this.dateFromObjectId(ad._id)).split('"')  }</small> */}
-                        <small><Moment format="DD/MM/YYYY HH:mm">{'Fecha: ', this.dateFromObjectId(ad._id)}</Moment></small>
+                        <small>{ JSON.stringify(ad.user.username)} </small>
+                        <small>- Fecha: <Moment format="DD/MM/YYYY HH:mm">{this.dateFromObjectId(ad._id)}</Moment></small>
                         <br></br>
                     </Card.Footer>
                 </Card>
