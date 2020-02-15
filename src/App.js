@@ -35,7 +35,7 @@ export class App extends React.Component {
 				{/* <UserProvider value={this.state}> */}
         <Router>
           <Switch>
-              <Route exact path="/" component={Register} />
+              <Route exact path="/" component={List} />
               <Route exact path="/advert" component={List} />
               <Route exact path="/advert/:adId/:name" component={DetailAd} />
               <Route exact path="/register" component={Register} />

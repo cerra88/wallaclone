@@ -11,11 +11,10 @@ class LoginController {
     try {
       // recoger credenciales de la petición
       const {username, password} = req.body;
-      
+      console.log(username, password)
       // buscar el usuario en BD
       const usuario = await Usuario.findOne({ username });
     
-      console.log()
       // si no lo encontramos le decimos que no
       if (!usuario || !await bcrypt.compare(password, usuario.pass)) {
         const err = new Error ('invalid credentials') 
@@ -42,7 +41,7 @@ class LoginController {
           'Access-Control-Allow-Headers',
           'Origin, X-Requested-With, Content-Type, Accept'
         )
-      res.cookie('token', token, {
+      res.cookie('wcloneuser', token, {
         expires: new Date(Date.now() + expiration),
         secure: false, // set to true if your using https
         httpOnly: true,

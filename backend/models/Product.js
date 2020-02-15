@@ -13,6 +13,7 @@ const productSchema = mongoose.Schema(
         price:          Number,
         photo:          String,
         tags:           Array,
+        //Relacion con la tabla user
         user:           { type: Schema.ObjectId, ref: "User" } 
     },  
     {
@@ -25,14 +26,14 @@ const productSchema = mongoose.Schema(
 
 
 // Uso un arrow function para evitar errores en los modelos. Hay posibilidad de perder el this, asi que siempre sin arrow funct.
-productSchema.statics.list = function({filter, skip, limit, fields, sort}){
-    const query = Product.find(filter);
+productSchema.statics.list = function({filter, skip, limit, fields, sort}, username){
+    // const query = Product.find(filter).populate({ path: 'user', select: 'username', match: { username: username } });
+    const query = Product.find(filter)
     query.skip(skip);
     query.limit(limit);
     query.select(fields);
     query.sort(sort);
-    query.populate('user')
-
+    query.populate('user');
     return query.exec();
 };
 

@@ -30,6 +30,10 @@ try {
     const limit = parseInt(req.query.limit);
     const skip = parseInt(req.query.skip);
     const sort = req.query.sort;
+    const username = req.query.username;
+
+    
+    
 
     const filter = {};
 
@@ -44,6 +48,7 @@ try {
     if(tags){
         filter.tags = tags;
     }
+
 
 
     if(typeof price !== 'undefined'){
@@ -73,7 +78,7 @@ try {
         // })
 
 
-const products = await Product.list({filter, skip, limit, fields, sort});
+const products = await Product.list({filter, skip, limit, fields, sort}, username);
 res.json({success: true, result: products});
 
 }catch (err) {
@@ -87,9 +92,9 @@ router.get('/item/:id', async (req, res, next) => {
 
     try {
       const _id = req.params.id;
-      
+      console.log('el id del producto individual es: ', _id)
   
-      const element = await Product.findById(_id).populate('user').exec();
+      const element = await Product.findById(_id).populate('user', 'username').exec();
   
       if (!element) {
         res.status(404).json({ success: false });

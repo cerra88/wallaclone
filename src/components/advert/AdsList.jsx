@@ -45,19 +45,17 @@ render() {
                         <h5><Card.Text>{ad.price}€</Card.Text></h5>
                         {
                             ad.type === "sell" ?(
-                            <Button className="adTypeButton" variant="success" >Vendo</Button>
+                            <Button className="adTypeButton button is-primary" variant="info" >Vendo</Button>
                             ):
                             (<Button className="adTypeButton" variant="warning" >Compro</Button>)
-                            
 
                         }
+                        
                         
                         {/* <Link to={`/editnew/${ad._id}`}><Card.Text><Button variant="outline-primary">EDIT</Button></Card.Text></Link> */}
                         <ButtonToolbar>
                         {
                             ad.tags.map(tag => (
-                            
-                            
                             <Button key={tag} className="tagButton" variant="outline-info"  size="sm">{tag}</Button>
                             ))
                             
@@ -66,8 +64,8 @@ render() {
                         </ButtonToolbar>
                     </Card.Body>
                     <Card.Footer>
-                        <small>{ JSON.stringify(ad.user.username)} </small>
-                        <small>- Fecha: <Moment format="DD/MM/YYYY HH:mm">{this.dateFromObjectId(ad._id)}</Moment></small>
+                    {/* <Button className="tagButton" variant="outline-info"  size="sm">{ JSON.stringify(ad.user.username).replace(/['"]+/g, '')}</Button> */}
+                        <small>Fecha: <Moment format="DD/MM/YYYY HH:mm">{this.dateFromObjectId(ad._id)}</Moment></small>
                         <br></br>
                     </Card.Footer>
                 </Card>

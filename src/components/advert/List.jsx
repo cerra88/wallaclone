@@ -1,7 +1,7 @@
 import React from "react";
 import api from "../../utils/api";
 import AdsList from "./AdsList"
-import { Navbar, Button, Form, FormControl, Nav, Col, InputGroup  } from 'react-bootstrap';
+import { Navbar, Button, Form, Nav, Col, InputGroup, ButtonGroup  } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import '../../css/styles.css';
 import Pagination from 'rc-pagination';
@@ -14,7 +14,8 @@ import { fetchSearchAds } from '../../store/actions'
 
 
 
-const {findAds, getTags, getTagsAds, getAds, getAdsbySearch } = api();
+
+const {findAds, getTags, checkCookie, getAds, getAdsbySearch, logOut } = api();
 
 export class Adverts extends React.Component {
   constructor(props) {
@@ -27,7 +28,9 @@ export class Adverts extends React.Component {
       type:"",
       loading: true,
       currentPage: 1,
-      postsPerPage: 6
+      postsPerPage: 6,
+      isLogged: false,
+      username: '',
 
     };
 
@@ -37,18 +40,31 @@ export class Adverts extends React.Component {
   
 
   componentDidMount(){
+    
+    checkCookie().then(user => {
+      this.setState({
+        isLogged: true,
+        username: user.username
+      })
+    }).catch(err =>
+      console.log(err)
+    )
   
-  
-    // const user = this.props.user
-    // if(Object.keys(user).length === 0){
-    //   // this.context.updateUser(user);
-    //   this.props.history.push("/register");
-    // }
+    
     
     this.myTags();
     this.myAds();
     
     
+  }
+
+  onLogoutClick = () => {
+    logOut().then(res => {
+      this.setState({
+        isLogged: false,
+        username: '',
+      })
+    })
   }
   
   
@@ -178,16 +194,21 @@ myAds = () => {
 
     return (
       <React.Fragment >
-<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+
+{/**********************  NAVBAR ***************************************/}
+
+<Navbar collapseOnSelect expand="lg" bg="" variant="dark" fixed="top">
 <Link to="/advert"><Navbar.Brand>
-            <img
-              src="https://es.seaicons.com/wp-content/uploads/2015/09/Online-Shopping-icon.png"
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-              alt="WallaKeep"
-            />{' '}
-            WallaKeep
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '5px' }}>
+                <img
+                  src="https://es.seaicons.com/wp-content/uploads/2015/09/Online-Shopping-icon.png"
+                  width="38"
+                  height="38"
+                  className="d-inline-block align-top"
+                  alt="WallaKeep"
+                />{' '}
+                <span className="navbar-tittle-wallaclone " style= {{ marginLeft: '5px' }} >Wallaclone</span>
+            </div>
         </Navbar.Brand>
         </Link>
   <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -196,14 +217,31 @@ myAds = () => {
 
     </Nav>
     <Nav>
+    
     <Form inline>
-            <FormControl type="text" placeholder="Search" onKeyUp={this.search} className="mr-sm-2" />
-            <Link to={`/editnew`}><Button variant="outline-info">New</Button></Link>
+
+      {
+          this.state.isLogged === false ?
+          
+            <Link to={`/login`}><Button variant="outline-info">Login</Button></Link>
+          
+        
+          :
+          <ButtonGroup>
+            <Button variant="outline-info" className="mr-sm-2"   >My zone: {this.state.username}</Button>
+            <Button variant="outline-warning"  className="mr-sm-2" onClick={this.onLogoutClick} >Log out</Button>
+          </ButtonGroup>
+      }
+            
           </Form>
     </Nav>
   </Navbar.Collapse>
 </Navbar>
 <br/>
+<br/>
+<br/>
+{/**********************  NAVBAR ***************************************/}
+
 
 
 <Form  className="advancedSearch" onSubmit = {this.onSubmit} >
@@ -263,30 +301,19 @@ myAds = () => {
         </Form.Group>
         
       </Form.Row>
-      <Button className="buttonAdvancedSearc" variant="outline-info" type="submit">Submit form</Button>
+      <Button className="buttonAdvancedSearc" variant="outline-info" type="submit">Search</Button>
       <br></br>
       <Button className="buttonReset" variant="outline-secondary" type="reset" onClick={this.resetAds}>Reset</Button>
     </Form>
-       
-        
-
         {
-
             ads 
             && 
-            <AdsList ads={currentAds} />
-
-          // searchAd? (
-          //   <AdsList ads={searchAd} />
-          // ):(
-          //   <AdsList ads={ads} />
-          // )
-
-
+            
+              <AdsList ads={currentAds} />
         }
-
-        <Pagination onChange={this.onPageChange} current={this.state.currentPage} total={ Math.ceil(this.state.ads.length / this.state.postsPerPage)*10 } />
-
+          <Pagination style={{ display: 'flex', justifyContent: 'center' }} onChange={this.onPageChange} current={this.state.currentPage} total={ Math.ceil(this.state.ads.length / this.state.postsPerPage)*10 } />
+        
+        
         <br></br>
         <br></br>
       </React.Fragment>

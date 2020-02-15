@@ -5,7 +5,9 @@ const jwt = require('jsonwebtoken');
 module.exports = function() {
   return function(req, res, next) {
     // leer el token que me mandan
-    const token = req.body.token || req.query.token || req.get('Authorization').split(' ')[1];
+    
+    const token = req.cookies.wcloneuser || req.query.wcloneuser || req.get('Authorization');
+    
     // si no tengo token no dejo pasar
     if (!token) {
       const err = new Error('no token provided');
@@ -21,7 +23,11 @@ module.exports = function() {
         next(err);
         return;
       }
-      req.apiUserId = payload._id;
+      
+      req._id = payload._id;
+      req.email = payload.email;
+      req.username = payload.username;
+      
       next();
     });
 

@@ -59,6 +59,7 @@ export const api = () => {
 
     findAdByID: async (id, name) => {
         const endPoint = `${API_URL}/item/${id}/`;
+        console.log(endPoint)
         const response = await axios.get(endPoint);
         return response.data.result;
         
@@ -131,15 +132,39 @@ export const api = () => {
     findUser: async (user) => {
       
       const endPoint = `/api/authenticate`;
-
       
 			const res = await axios({
         method: 'post',
         url: endPoint,
         data: user
       });
+      
       return res.data;
+    },
+
+    checkCookie: async () => {
+      const endPoint = `/api/checkuser`;
+      return axios.get(endPoint)
+      
+        .then(response => response.data.result)
+        
+				.catch(err => {
+					throw err;
+				})
+    },
+
+    logOut: async () => {
+      const endPoint = `/api/logout`;
+      console.log(endPoint)
+      return axios.get(endPoint)
+        .then(response => response.data.result)
+        
+				.catch(err => {
+					throw err;
+				})
+
     }
+
 
 
   }

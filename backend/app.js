@@ -4,11 +4,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
-const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo')(session);
 
-
-
-const MONGO_URL = 'mongodb://127.0.0.1:27017/nodepop'
 
 
 
@@ -57,12 +54,12 @@ app.use(i18n.init);
  * CONEXION A LA BBDD MONGODB
  */
 
-require('./lib/connectMongoose');
+const connectMongoose = require('./lib/connectMongoose');
 
 
 
 //VARIABLES GLOBALES
-app.locals.title = 'NodePop';
+app.locals.title = 'Wallaclone';
 
 
 
@@ -72,10 +69,23 @@ app.locals.title = 'NodePop';
 const loginController = require('./controllers/loginController');
 const jwtAuth = require('./lib/jwtAuth');
 
-app.post('/api/authenticate', loginController.loginJWT);   
+app.post('/api/authenticate', loginController.loginJWT);  
+app.get('/api/logout', jwtAuth(), function(req, res) {
+  res.clearCookie('wcloneuser');
+  return res.sendStatus(200);
+} )
 // app.use('/api/product', jwtAuth(), require('./routes/api/products'));
 app.use('/api/product', require('./controllers/products'));
 app.use('/api/register', require('./controllers/users'));
+app.use('/api/checkuser', jwtAuth(), function(req, res){
+  const user = {
+    _id: req._id,
+    username: req.username,
+    email: req.email,
+  }
+  console.log('el user es: ', user)
+  res.json({sucsess: true, result: user })
+})
 
 
 /**
@@ -86,11 +96,11 @@ app.use('/api/register', require('./controllers/users'));
    secret: 'estoesunsecretomuySecret0queN0seC0mp4rte',
    resave: true,
    saveUninitialized: true,
-  //  store: new MongoStore({
-  //    url: MONGO_URL,
-  //    autoReconnect: true,
-     
-  //  })
+   cookie: {
+     secure: true,
+     maxAge: 1000 * 60 * 60 * 24 * 2 // 48h para caducar
+   },
+   store: new MongoStore({ url:'mongodb://localhost:27017/nodepop'})
 
 
  }))
