@@ -17,7 +17,7 @@ export const api = () => {
     
     getAds: async (query) => {
         try {
-          const response = await axios.get(`${API_URL}?sort=createdAt`);
+          const response = await axios.get(`${API_URL}?sort=-createdAt`);
           return response.data.result;  
         } catch (error) {
           throw(error)

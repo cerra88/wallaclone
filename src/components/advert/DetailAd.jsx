@@ -92,9 +92,9 @@ export class DetailAd extends React.Component {
     
     return(
       <React.Fragment>
-
 {/**********************  NAVBAR ***************************************/}
-         <Navbar collapseOnSelect expand="lg" bg="" variant="dark" fixed="top">
+
+<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
 <Link to="/advert"><Navbar.Brand>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '5px' }}>
                 <img
@@ -119,13 +119,16 @@ export class DetailAd extends React.Component {
 
       {
           this.state.isLogged === false ?
-          
-            <Link to={`/login`}><Button className="button is-primary">Login</Button></Link>
+          <ButtonGroup>
+            <Link to={`/register`}><Button className="mr-sm-2 button is-primary is-outlined">register</Button></Link>
+            <Link to={`/login`}><Button className="mr-sm-2 button is-primary">Login</Button></Link>
+            </ButtonGroup>
           
         
           :
           <ButtonGroup>
-            <Button  className="mr-sm-2 button is-primary is-outlined"   >My Walla</Button>
+            <Link to={`/newad`}><Button  className="mr-sm-2 button is-primary is-outlined"   >New product</Button></Link>
+            <Button  className="mr-sm-2 button is-primary is-outlined"   >My ads</Button>
             <Button className="mr-sm-2 button is-warning is-outlined" onClick={this.onLogoutClick} >Logout</Button>
           </ButtonGroup>
       }
@@ -138,6 +141,7 @@ export class DetailAd extends React.Component {
 <br/>
 <br/>
 {/**********************  NAVBAR ***************************************/}
+
         
       {
         ad 

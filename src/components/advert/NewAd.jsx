@@ -66,11 +66,26 @@ export class Editnew extends React.Component {
           user: user._id
         }
       })
+
+      //ahora si no hay usuario logueado, entonces redirigo a advert, sino le mantengo para que pueda hacer login.
+      if (!this.state.user){
+        this.props.history.push("/advert");
+      }
+
     }).catch(err =>
       console.log(err)
     )
 
+      
+
+   
+
+
   }
+
+
+  
+  
 
   
   
@@ -154,6 +169,8 @@ test = (file) => {
           edit: false
         },
       })
+
+
     });
   }
   
@@ -168,8 +185,9 @@ test = (file) => {
 
     return(
       <React.Fragment>
-       {/**********************  NAVBAR ***************************************/}
-       <Navbar collapseOnSelect expand="lg" bg="" variant="dark" fixed="top">
+{/**********************  NAVBAR ***************************************/}
+
+<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
 <Link to="/advert"><Navbar.Brand>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '5px' }}>
                 <img
@@ -194,13 +212,16 @@ test = (file) => {
 
       {
           this.state.isLogged === false ?
-          
-            <Link to={`/login`}><Button className="button is-primary">Login</Button></Link>
+          <ButtonGroup>
+            <Link to={`/register`}><Button className="mr-sm-2 button is-primary is-outlined">register</Button></Link>
+            <Link to={`/login`}><Button className="mr-sm-2 button is-primary">Login</Button></Link>
+            </ButtonGroup>
           
         
           :
           <ButtonGroup>
-            <Button  className="mr-sm-2 button is-primary is-outlined"   >My Walla</Button>
+            <Link to={`/newad`}><Button  className="mr-sm-2 button is-primary is-outlined"   >New product</Button></Link>
+            <Button  className="mr-sm-2 button is-primary is-outlined"   >My ads</Button>
             <Button className="mr-sm-2 button is-warning is-outlined" onClick={this.onLogoutClick} >Logout</Button>
           </ButtonGroup>
       }

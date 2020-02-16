@@ -3,7 +3,8 @@ import Register from "./components/Register/Register";
 import Login from "./components/Register/Login";
 import List from "./components/advert/List"
 import DetailAd from "./components/advert/DetailAd"
-import Editnew from "./components/advert/Editnew"
+
+import NewAd from "./components/advert/NewAd"
 import ErrorBoundary from "./components/advert/ErrorBundary"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -40,8 +41,8 @@ export class App extends React.Component {
               <Route exact path="/advert/:adId/:name" component={DetailAd} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
-              <Route exact path="/editnew/:adId" component={Editnew} />
-              <Route exact path="/editnew" component={Editnew} />
+              <Route exact path="/editnew/:adId" component={NewAd} />
+              <Route exact path="/newad" component={NewAd} />
               <Route component={List}/>
           </Switch>
         </Router>

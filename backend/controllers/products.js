@@ -122,7 +122,7 @@ router.post('/', upload.single('photo'), async (req, res, next) =>{
         
         console.log(data, file)
         // const product = new Product(data);
-        const product = new Product({ name: req.body.name, type: req.body.type, price: req.body.price, photo: `/images/products/${req.file.filename}`});
+        const product = new Product({ name: req.body.name, description: req.body.description, type: req.body.type, price: req.body.price, user: req.body.user , photo: `/images/products/${req.file.filename}`});
         const newProduct = await product.save();
         res.json({success: true, result: newProduct});
         // Requester para generador de thumbnails

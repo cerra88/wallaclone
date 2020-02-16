@@ -102,7 +102,7 @@ export class Login extends React.Component {
 
     return(
       <React.Fragment>
-      <div className="formContainer">
+      {/* <div className="formContainer">
         <form className="formHome" onSubmit = {this.onSubmit}>
           <div className="field">
             <label className="label is-size-6"></label>
@@ -133,7 +133,57 @@ export class Login extends React.Component {
         </div>
           
           </form>
+        </div> */}
+
+<form  onSubmit = {this.onSubmit}>
+<section className="hero  is-fullheight">
+        <div className="hero-body">
+            <div className="container has-text-centered">
+                <div className="column is-4 is-offset-4">
+                    <h3 className="title has-text-black"></h3>
+                    {/* <hr className="login-hr"/> */}
+                    <br></br>
+                    <p className="subtitle has-text"></p>
+                    <div className="">
+                        <figure className="avatar">
+                            <img src="https://es.seaicons.com/wp-content/uploads/2015/09/Online-Shopping-icon.png"/>
+                        </figure>
+                          <br></br>
+                            <div className="field">
+                            <div className="control">
+                              <input className="input" type="text" placeholder="Username" name="username" onChange={this.onInputChange} />
+                              </div>
+                            </div>
+
+                            <div className="field">
+                              <label className="label"></label>
+                              <div className="control">
+                                <input className="input" type="email" placeholder="email@gmail.com" name="email" onChange={this.onInputChange} />
+                              </div>
+                            </div>
+
+                            <div className="field">
+                              <label className="label"></label>
+                              <div className="control">
+                                <input className="input" type="password" placeholder="Password" name="pass" onChange={this.onInputChange} />
+                              </div>
+                            </div>
+                           
+                            <br></br>
+                            <button className="button is-block is-primary  is-fullwidth">Register <i className="fa fa-sign-in" aria-hidden="true"></i></button>
+                        
+                    </div>
+                    <br></br>
+                    <p className="has-text-grey">
+                        <a href="../">Sign Up</a> &nbsp;·&nbsp;
+                        <a href="../">Forgot Password</a> &nbsp;·&nbsp;
+                        <a href="../">Need Help?</a>
+                    </p>
+                </div>
+            </div>
         </div>
+    </section>
+    </form>
       </React.Fragment>
       )
     }

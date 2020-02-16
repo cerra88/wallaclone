@@ -26,12 +26,12 @@ responder.on('thumbnails', (req, done) => {
             console.log('image pasa por jimp');
         
             // Hago el resize de la imagen
-            await image.resize(202, 202);
+            await image.resize(640, 480);
             console.log('hago el resize');
         
             // sobreescribo la imgagen en la ruta que necesito
             await image.writeAsync(imagePath);
-            console.log('thumnail generado en: ', image);
+        
 
             //devuelvo respuesta al requester
             done('Thumbnail generado');
