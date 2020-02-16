@@ -11,7 +11,7 @@ const cote = require('cote');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, path.join(__dirname, '..', '..', 'public', 'images', 'products'))
+      cb(null, path.join(__dirname, '..', '..', 'backend', 'public', 'images', 'products'))
     },
     filename: function (req, file, cb) {
       cb(null, Date.now() + '-' + file.originalname)
@@ -115,9 +115,14 @@ router.get('/item/:id', async (req, res, next) => {
 
 router.post('/', upload.single('photo'), async (req, res, next) =>{
     try {
+        console.log('paso')
         const data = req.body;
         const file = req.file;
-        const product = new Product(data);
+        
+        
+        console.log(data, file)
+        // const product = new Product(data);
+        const product = new Product({ name: req.body.name, type: req.body.type, price: req.body.price, photo: `/images/products/${req.file.filename}`});
         const newProduct = await product.save();
         res.json({success: true, result: newProduct});
         // Requester para generador de thumbnails
@@ -125,7 +130,7 @@ router.post('/', upload.single('photo'), async (req, res, next) =>{
         requester.send({
             type: 'thumbnails',
             file: file,
-            filename: file.originalname,
+            filename: file.filename,
             path: file.path,
         }, response => {
             console.log(`responde el cliente --> ${response}`);

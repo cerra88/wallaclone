@@ -94,18 +94,26 @@ export const api = () => {
     
     newAdvert: async (advert) => {
       console.log(advert)
-      const endPoint = `http://localhost:3001/apiv1/anuncios`;
-      // if(advert.venta === "true"){
-      //   advert.venta = true;
-      // }else{
-      //   advert.venta = false;
-      // }
+      const endPoint = API_URL;
+
+      console.log(advert.user)
+
+      const formData = new FormData();
+      formData.append('name', advert.name);
+      formData.append('description', advert.description);
+      formData.append('type', advert.type);
+      formData.append('price', advert.price);
+      formData.append('tags', advert.tags);
+      formData.append('user', advert.user);
+      formData.append('photo', advert.photo[0]);
       
+      console.log(formData)
 			const res = await axios({
         method: 'post',
         url: endPoint,
-        data: advert
+        data: formData
       });
+      console.log(res.data)
       return res.data;
     },
 

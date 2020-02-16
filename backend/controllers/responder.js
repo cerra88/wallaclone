@@ -26,7 +26,7 @@ responder.on('thumbnails', (req, done) => {
             console.log('image pasa por jimp');
         
             // Hago el resize de la imagen
-            await image.resize(100, 100);
+            await image.resize(202, 202);
             console.log('hago el resize');
         
             // sobreescribo la imgagen en la ruta que necesito

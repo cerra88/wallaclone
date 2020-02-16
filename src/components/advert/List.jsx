@@ -1,6 +1,7 @@
 import React from "react";
 import api from "../../utils/api";
 import AdsList from "./AdsList"
+// import '../../css/bulma.css';
 import { Navbar, Button, Form, Nav, Col, InputGroup, ButtonGroup  } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import '../../css/styles.css';
@@ -223,13 +224,13 @@ myAds = () => {
       {
           this.state.isLogged === false ?
           
-            <Link to={`/login`}><Button variant="outline-info">Login</Button></Link>
+            <Link to={`/login`}><Button className="button is-primary">Login</Button></Link>
           
         
           :
           <ButtonGroup>
-            <Button variant="outline-info" className="mr-sm-2"   >My zone: {this.state.username}</Button>
-            <Button variant="outline-warning"  className="mr-sm-2" onClick={this.onLogoutClick} >Log out</Button>
+            <Button  className="mr-sm-2 button is-primary is-outlined"   >My Walla</Button>
+            <Button className="mr-sm-2 button is-warning is-outlined" onClick={this.onLogoutClick} >Logout</Button>
           </ButtonGroup>
       }
             

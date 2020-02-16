@@ -4,12 +4,15 @@ import '../../css/bulma.css';
 import '../../css/styles.css';
 import { Link } from "react-router-dom";
 import Tags from "../Register/Tags";
-import { Nav, Navbar, Button, Form, FormControl  } from 'react-bootstrap';
+import { Nav, Navbar, Button, Form, ButtonGroup  } from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {fetchSingleAd, editAds} from '../../store/actions'
+import  '../../../node_modules/react-dropzone/examples/theme.css';
+import {MyDropzone} from './DragDrop'
+import Dropzone from 'react-dropzone'
 
 
-const { findAdByID, editAdvert, newAdvert } = api();
+const { findAdByID, editAdvert, newAdvert, checkCookie } = api();
 
 export class Editnew extends React.Component {
   constructor(props){
@@ -18,13 +21,12 @@ export class Editnew extends React.Component {
         advert: {
             name: "",
             description: "",
-            venta: "",
-            price: "",
+            type: "",
+            price: Number,
             tags: [],
             photo: "",
-            
+            user: "",
         },
-        edit: false,
     }
  
     this.onSubmit = this.onSubmit.bind(this);
@@ -33,37 +35,51 @@ export class Editnew extends React.Component {
   }
 
   componentDidMount(){
-    const user = this.props.user;
-    if(Object.keys(user).length === 0){
-      this.props.history.push("/register");
-    }
+    // const user = this.props.user;
+    // if(Object.keys(user).length === 0){
+    //   this.props.history.push("/register");
+    // }
 
-    const adId =this.props.match.params.adId;
-    console.log('adId es:', adId)
+    // const adId =this.props.match.params.adId;
+    // console.log('adId es:', adId)
 
-    if(adId === undefined){
-        console.log('adId es undefined, no hago setState y cargo el form con datos vacios')
+    // if(adId === undefined){
+    //     console.log('adId es undefined, no hago setState y cargo el form con datos vacios')
 
-    }else{
-        console.log('llamo a la función de redux para que me traiga el ad')
-        this.props.loadAd(adId)  
-        console.log(this.props.detailAd)
-        this.setState({
-          advert: this.props.detailAd,
-          edit: true
-        }) 
-        // this.findByID(adId);
+    // }else{
+    //     console.log('llamo a la función de redux para que me traiga el ad')
+    //     this.props.loadAd(adId)  
+    //     console.log(this.props.detailAd)
+    //     this.setState({
+    //       advert: this.props.detailAd,
+    //       edit: true
+    //     }) 
+    //     // this.findByID(adId);
         
         
-    }
+    // }
+
+    checkCookie().then(user => {
+      this.setState({
+        advert: {
+          ...this.state.advert,
+          user: user._id
+        }
+      })
+    }).catch(err =>
+      console.log(err)
+    )
 
   }
+
+  
   
 //   componentDidMount(){
     
 //     const adId = this.props.match.params.adId;
     
 //   }
+
 
   findByID = (adId) =>{
     findAdByID(adId).then(ad => 
@@ -82,14 +98,24 @@ export class Editnew extends React.Component {
     )
   }
 
+test = (file) => {
+  console.log(file)
+  this.setState({    
+    advert: {
+      ...this.state.advert,
+      photo: file
+
+    }
+  })
+}
   onInputChange(event) {
     const { name, value } = event.target;
     
     this.setState({
         advert:{
             ...this.state.advert,
-            [name]: value
-
+            [name]: value,
+            
         }
     })
     // this.setState({
@@ -103,18 +129,17 @@ export class Editnew extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     console.log(this.state)
-    console.log(this.state.advert._id)
+    
+    // console.log(this.state.advert._id)
     
     
-    if (this.state.edit === true) {
-      console.log('paso')
-      this.props.editAd(this.state.advert._id, this.state.advert)
-      // return editAdvert(this.state.advert._id, this.state.advert)
-      //   .then((res) => {
-      //     alert('Advert have been updated')
-      //   })
-
-    }
+    // if (this.state.edit === true) {
+    //   console.log('paso')
+    //   this.props.editAd(this.state.advert._id, this.state.advert)
+  
+    // }
+    
+    console.log(this.state)
     
     newAdvert(this.state.advert).then(res => {
       alert('Advert have been created');
@@ -123,7 +148,7 @@ export class Editnew extends React.Component {
           name: '',
           description: '',
           tags: [],
-          price: '',
+          price: Number,
           type: '',
           photo: '',
           edit: false
@@ -136,9 +161,6 @@ export class Editnew extends React.Component {
 
   render(){
     const { advert } = this.state;
-    console.log(advert)
-
-    
 
      if(!advert){
        return null
@@ -146,31 +168,51 @@ export class Editnew extends React.Component {
 
     return(
       <React.Fragment>
-         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+       {/**********************  NAVBAR ***************************************/}
+       <Navbar collapseOnSelect expand="lg" bg="" variant="dark" fixed="top">
 <Link to="/advert"><Navbar.Brand>
-            <img
-              src="https://es.seaicons.com/wp-content/uploads/2015/09/Online-Shopping-icon.png"
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-              alt="WallaKeep"
-            />{' '}
-            WallaKeep
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '5px' }}>
+                <img
+                  src="https://es.seaicons.com/wp-content/uploads/2015/09/Online-Shopping-icon.png"
+                  width="38"
+                  height="38"
+                  className="d-inline-block align-top"
+                  alt="WallaKeep"
+                />{' '}
+                <span className="navbar-tittle-wallaclone " style= {{ marginLeft: '5px' }} >Wallaclone</span>
+            </div>
         </Navbar.Brand>
         </Link>
   <Navbar.Toggle aria-controls="responsive-navbar-nav" />
   <Navbar.Collapse id="responsive-navbar-nav">
     <Nav className="mr-auto">
-      
+
     </Nav>
     <Nav>
+    
     <Form inline>
-            <FormControl type="text" placeholder="Search" onKeyUp={this.search} className="mr-sm-2" />
-            <Button variant="outline-info">New</Button>
+
+      {
+          this.state.isLogged === false ?
+          
+            <Link to={`/login`}><Button className="button is-primary">Login</Button></Link>
+          
+        
+          :
+          <ButtonGroup>
+            <Button  className="mr-sm-2 button is-primary is-outlined"   >My Walla</Button>
+            <Button className="mr-sm-2 button is-warning is-outlined" onClick={this.onLogoutClick} >Logout</Button>
+          </ButtonGroup>
+      }
+            
           </Form>
     </Nav>
   </Navbar.Collapse>
 </Navbar>
+<br/>
+<br/>
+<br/>
+{/**********************  NAVBAR ***************************************/}
         
       {
         advert
@@ -181,7 +223,7 @@ export class Editnew extends React.Component {
           <div className="field">
             <label className="label is-size-6"></label>
             <div className="control">
-                Ad Name
+                Titulo
               <input className="input" type="text" value={advert.name}  name="name" onChange={this.onInputChange}/>
             </div>
           </div>
@@ -207,10 +249,18 @@ export class Editnew extends React.Component {
             <div className="control">
                 Buy or  Sell:
                 <br></br>
-                <select className="select" name="type" placeholder={advert.type} onChange={this.onInputChange}>
-                            <option value="buy">buy</option>
-                            <option value="sell">sell</option>
-                          </select>
+                
+                <Form.Group controlId="tagSelect">
+                
+                <Form.Control as="select" name="type" size="" autoFocus={true} required="required" controlId="typeSelected" onChange={this.onInputChange}>
+                    <option className="field" value="" selected disabled></option>
+                    <option value="buy">buy</option>
+                    <option value="sell">sell</option>
+           
+             </Form.Control>
+             </Form.Group>
+
+
             </div>
           </div>
 
@@ -220,17 +270,31 @@ export class Editnew extends React.Component {
           <div className="field">
             <label className="label"></label>
             <div className="control">
-            Photo url:
+            {/* Photo url:
             <input className="input" type="text" placeholder={advert.photo} name="photo" onChange={this.onInputChange}/>
-                <div class="column is-6-desktop"><img src={`http://localhost:3001/${advert.adPhoto}`} alt=""/></div>
+                <div class="column is-6-desktop"><img src={`http://localhost:3001/${advert.adPhoto}`} alt=""/></div> */}
             </div>
           </div>
-
+          {/* <MyDropzone name="dragdrop" value=""  onChange={this.onInputChange} ></MyDropzone> */}
+              <Dropzone onDrop={acceptedFiles => {
+                this.test(acceptedFiles)
+              }
+                }>
+                {({ getRootProps, getInputProps }) => (
+                  <section>
+                    <div {...getRootProps({className: 'dropzone'})}>
+                      <input {...getInputProps()} />
+                      <p>Drag 'n' drop some files here, or click to select files</p>
+                    </div>
+                  </section>
+                )}
+              </Dropzone>
+          <br></br>
           
         
         <div className="field is-grouped">
             <div className="control">
-                <button className="button is-warning">Submit</button>
+                <button className="button is-primary">Submit</button>
             </div>
                       
         </div>

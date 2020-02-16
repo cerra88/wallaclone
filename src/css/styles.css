@@ -16,6 +16,18 @@
         
     }
 
+    .formHome{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+        width: 90%;
+        padding: 20px;
+        border: 1px solid #ced4da;
+        border-radius: 0.50rem;
+        
+      }
+
 
 }
 
@@ -32,6 +44,9 @@
     display:flex;
     justify-content: space-between;
   }
+
+
+ 
 
 }
 
@@ -92,8 +107,9 @@
   flex-direction: column;
   justify-content: center;
   align-content: center;
-  width: 60%;
   padding: 20px;
+  border: 1px solid #ced4da;
+  border-radius: 0.50rem;
   
 }
 
@@ -102,6 +118,7 @@
   justify-content: center;
   align-items: center;
   padding-top: 60px;
+  
   
 }
 

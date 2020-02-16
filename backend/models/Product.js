@@ -14,7 +14,7 @@ const productSchema = mongoose.Schema(
         photo:          String,
         tags:           Array,
         //Relacion con la tabla user
-        user:           { type: Schema.ObjectId, ref: "User" } 
+        user:           { type: Schema.ObjectId, ref: "User" },
     },  
     {
         /**
