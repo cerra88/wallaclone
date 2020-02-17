@@ -1,6 +1,7 @@
 import React from 'react';
 import '../../css/styles.css';
 import Tags from "./Tags";
+import { withSnackbar } from 'notistack';
 import UserContext from '../../context/user'
 import Register from '../Register/Register'
 import {setUser} from './../../utils/storage';
@@ -51,30 +52,26 @@ export class Login extends React.Component {
     event.preventDefault();
     console.log(this.state);
     console.log(this.props);
-    
+    const emailPattern =  /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const emailLowerCase = this.state.user.email.toLowerCase();
 
-    if (this.state.user.username.trim().length <= 3) {
-      alert("The name must be bigger than 3 characters");
-      return false;
-    }
-    if (this.state.user.email.trim().length <= 3) {
-      alert("The surname must be bigger than 3 characters");
-      return false;
-    }
-    
-    // this.context.updateUser(this.state.user);
+    if (this.state.user.username.trim().length < 5 || this.state.user.username.trim().length > 14 ) {
+      this.props.enqueueSnackbar('Username must be between 5 and 14 characters long', {variant: 'warning'});
+    }else if (emailPattern.test(emailLowerCase) !== true) {
+      this.props.enqueueSnackbar('You must enter a valid email', {variant: 'error'});
+    }else if(!this.state.user.password || this.state.user.password.trim().length < 5 || this.state.user.password.trim().length > 14){
+      this.props.enqueueSnackbar('The password must be between 5 and 14 characters long', {variant: 'warning'});
+    }else {
 
     try {
       newUser(this.state.user).then()
     } catch (error) {
       console.log(error)
     }
-    
-
     this.props.history.push("/advert");
     setUser(this.state.user);
     this.props.setUserToRedux(this.state.user)
-
+  }
    
     
     
@@ -102,45 +99,12 @@ export class Login extends React.Component {
 
     return(
       <React.Fragment>
-      {/* <div className="formContainer">
-        <form className="formHome" onSubmit = {this.onSubmit}>
-          <div className="field">
-            <label className="label is-size-6"></label>
-            <div className="control">
-              <input className="input" type="text" placeholder="Username" name="username" onChange={this.onInputChange}/>
-            </div>
-          </div>
-
-          <div className="field">
-            <label className="label"></label>
-            <div className="control">
-              <input className="input" type="email" placeholder="email@gmail.com" name="email" onChange={this.onInputChange} />
-            </div>
-          </div>
-        
-          <div className="field">
-            <label className="label"></label>
-            <div className="control">
-              <input className="input" type="password" placeholder="Password" name="pass" onChange={this.onInputChange} />
-            </div>
-          </div>
-        
-        <div className="field is-grouped">
-            <div className="control">
-                <button className="button is-warning">Submit</button>
-            </div>
-                      
-        </div>
-          
-          </form>
-        </div> */}
-
 <form  onSubmit = {this.onSubmit}>
 <section className="hero  is-fullheight">
         <div className="hero-body">
             <div className="container has-text-centered">
                 <div className="column is-4 is-offset-4">
-                    <h3 className="title has-text-black"></h3>
+                    {/* <h3 className="title has-text-black"></h3> */}
                     {/* <hr className="login-hr"/> */}
                     <br></br>
                     <p className="subtitle has-text"></p>
@@ -148,6 +112,8 @@ export class Login extends React.Component {
                         <figure className="avatar">
                             <img src="https://es.seaicons.com/wp-content/uploads/2015/09/Online-Shopping-icon.png"/>
                         </figure>
+                        <medium>Don't have an account?</medium>
+                          <br></br>
                           <br></br>
                             <div className="field">
                             <div className="control">
@@ -171,13 +137,13 @@ export class Login extends React.Component {
                            
                             <br></br>
                             <button className="button is-block is-primary  is-fullwidth">Register <i className="fa fa-sign-in" aria-hidden="true"></i></button>
-                        
                     </div>
                     <br></br>
                     <p className="has-text-grey">
-                        <a href="../">Sign Up</a> &nbsp;·&nbsp;
-                        <a href="../">Forgot Password</a> &nbsp;·&nbsp;
-                        <a href="../">Need Help?</a>
+                        <a href="/login">Sign Up</a> &nbsp;·&nbsp;
+                        <a href="../">Forgot Password</a> 
+                        <br></br>
+                        <a href="/advert">See our products</a>
                     </p>
                 </div>
             </div>
@@ -205,6 +171,6 @@ function mapStateToProps(state)  {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default withSnackbar (connect(mapStateToProps, mapDispatchToProps)(Login));
 
 Register.contextType = UserContext;

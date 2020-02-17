@@ -8,7 +8,7 @@ import Register from '../Register/Register'
 import {connect} from 'react-redux';
 import { setReduxUser } from '../../store/actions'
 import api from "../../utils/api";
-import Cookies from 'js-cookie'
+import { withSnackbar } from 'notistack';
 
 const { findUser, checkCookie } = api();
 
@@ -23,6 +23,7 @@ export class Login extends React.Component {
             id: '',
             username: '',
             email: '',
+            isLogged: false,
             
           },
 
@@ -46,14 +47,11 @@ export class Login extends React.Component {
           userCookie:{
             id: user._id,
             username: user.username,
-            email: user.email
+            email: user.email,
+            isLogged: true,
           }
         })
 
-        //ahora si hay usuario, entonces redirigo a advert, sino le mantengo para que pueda hacer login.
-        if (this.state.userCookie){
-          this.props.history.push("/advert");
-        }
 
       }).catch(err =>
         console.log(err)
@@ -69,25 +67,24 @@ export class Login extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state);
-    console.log(this.props);
     
 
-    if (this.state.user.username.trim().length <= 3) {
-      alert("The name must be bigger than 3 characters");
+    if (this.state.user.username.trim().length < 5 || this.state.user.username.trim().length > 14 ) {
+      this.props.enqueueSnackbar('Username must be between 5 and 14 characters long', {variant: 'warning'});
+    }else if(!this.state.user.password || this.state.user.password.trim().length < 5 || this.state.user.password.trim().length > 14){
+      this.props.enqueueSnackbar('The password must be between 5 and 14 characters long', {variant: 'warning'});
       return false;
-    }
-    if(!this.state.user.password){
-      alert("The password is required");
-    }
+    }else {
       findUser(this.state.user)
       .then(res => {
           this.props.history.push("/advert");
       })
       .catch(error => { 
-        alert('invaild credentilas', error)
+        this.props.enqueueSnackbar('Password is incorrect', {variant: 'error'});
         this.props.history.push("/login");
       })
+
+    }
     
     
 
@@ -112,11 +109,16 @@ export class Login extends React.Component {
 
 
   render(){
-    console.log(this.state.user)
+    
     // const { user } = this.state;
     // if (Object.entries(this.context.user).length !== 0) {
     //   return null;
     // }
+
+    //ahora si hay usuario, entonces redirigo a advert, sino le mantengo para que pueda hacer login.
+    if (this.state.userCookie.isLogged === true){
+      this.props.history.push("/advert");
+    }
 
     return(
       <React.Fragment>
@@ -157,6 +159,8 @@ export class Login extends React.Component {
                         <figure className="avatar">
                             <img src="https://es.seaicons.com/wp-content/uploads/2015/09/Online-Shopping-icon.png"/>
                         </figure>
+                        <big>Login</big>
+                          <br></br>
                           <br></br>
                             <div className="field">
                                 <div className="control">
@@ -176,9 +180,10 @@ export class Login extends React.Component {
                     </div>
                     <br></br>
                     <p className="has-text-grey">
-                        <a href="../">Sign Up</a> &nbsp;·&nbsp;
+                        <a href="/register">Register</a> &nbsp;·&nbsp;
                         <a href="../">Forgot Password</a> &nbsp;·&nbsp;
-                        <a href="../">Need Help?</a>
+                        <br></br>
+                        <a href="/advert">See our products</a>
                     </p>
                 </div>
             </div>
@@ -206,6 +211,6 @@ function mapStateToProps(state)  {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default withSnackbar(connect(mapStateToProps, mapDispatchToProps)(Login));
 
 Register.contextType = UserContext;

@@ -12,7 +12,7 @@ import {MyDropzone} from './DragDrop'
 import Dropzone from 'react-dropzone'
 
 
-const { findAdByID, editAdvert, newAdvert, checkCookie } = api();
+const { findAdByID, editAdvert, newAdvert, checkCookie, logOut } = api();
 
 export class Editnew extends React.Component {
   constructor(props){
@@ -27,91 +27,72 @@ export class Editnew extends React.Component {
             photo: "",
             user: "",
         },
+        login: {
+          isLogged: false,
+
+        }
+        
+
     }
  
     this.onSubmit = this.onSubmit.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
-    this.findByID = this.findByID.bind(this);
+    // this.findByID = this.findByID.bind(this);
+    
   }
 
   componentDidMount(){
-    // const user = this.props.user;
-    // if(Object.keys(user).length === 0){
-    //   this.props.history.push("/register");
-    // }
 
-    // const adId =this.props.match.params.adId;
-    // console.log('adId es:', adId)
-
-    // if(adId === undefined){
-    //     console.log('adId es undefined, no hago setState y cargo el form con datos vacios')
-
-    // }else{
-    //     console.log('llamo a la función de redux para que me traiga el ad')
-    //     this.props.loadAd(adId)  
-    //     console.log(this.props.detailAd)
-    //     this.setState({
-    //       advert: this.props.detailAd,
-    //       edit: true
-    //     }) 
-    //     // this.findByID(adId);
-        
-        
-    // }
-
-    checkCookie().then(user => {
+    checkCookie().then(cookie => {
+      console.log(cookie)
       this.setState({
         advert: {
           ...this.state.advert,
-          user: user._id
+          user: cookie._id
+    
+        },
+        login: {
+          ...this.state.login,
+          isLogged: true,
         }
+        
       })
-
-      //ahora si no hay usuario logueado, entonces redirigo a advert, sino le mantengo para que pueda hacer login.
-      if (!this.state.user){
-        this.props.history.push("/advert");
-      }
-
+     
     }).catch(err =>
       console.log(err)
     )
-
-      
-
    
 
-
   }
 
-
-  
-  
-
-  
-  
-//   componentDidMount(){
-    
-//     const adId = this.props.match.params.adId;
-    
-//   }
-
-
-  findByID = (adId) =>{
-    findAdByID(adId).then(ad => 
+  onLogoutClick = () => {
+    logOut().then(res => {
       this.setState({
-        advert: {
-            adId: ad._id,
-            name: ad.name,
-            type: ad.type,
-            description: ad.description,
-            price: ad.price,
-            tags: ad.tags,
-            photo: ad.photo,
-            edit: true,
-        },
-     })
-    )
+        isLogged: false,
+        username: '',
+      })
+    })
   }
+
+
+
+
+  // findByID = (adId) =>{
+  //   findAdByID(adId).then(ad => 
+  //     this.setState({
+  //       advert: {
+  //           adId: ad._id,
+  //           name: ad.name,
+  //           type: ad.type,
+  //           description: ad.description,
+  //           price: ad.price,
+  //           tags: ad.tags,
+  //           photo: ad.photo,
+  //           edit: true,
+  //       },
+  //    })
+  //   )
+  // }
 
 test = (file) => {
   console.log(file)
@@ -178,9 +159,13 @@ test = (file) => {
 
   render(){
     const { advert } = this.state;
-
+    console.log(this.state)
      if(!advert){
        return null
+     }
+
+     if(this.state.login.isLogged === false){
+        this.props.history.push("/advert");
      }
 
     return(

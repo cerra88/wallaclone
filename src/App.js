@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import {Alert} from 'react-bootstrap';
 import ReactSpinner from 'react-bootstrap-spinner'
 import {fetchAds} from './store/actions'
+import { SnackbarProvider } from 'notistack';
 
 
 export class App extends React.Component {
@@ -33,7 +34,11 @@ export class App extends React.Component {
       <div>
       <ErrorBoundary>
         <Provider store={this.props.store}>
-				{/* <UserProvider value={this.state}> */}
+          
+				<SnackbarProvider 
+    iconVariant={{ success: '✅', error: '✖️', warning: '⚠️', info: 'ℹ️', }}
+    anchorOrigin={{ vertical: 'top', horizontal: 'center',}}>
+
         <Router>
           <Switch>
               <Route exact path="/" component={List} />
@@ -46,7 +51,7 @@ export class App extends React.Component {
               <Route component={List}/>
           </Switch>
         </Router>
-        {/* </UserProvider>   */}
+        </SnackbarProvider>       
         </Provider>
 			</ErrorBoundary>
       {isFetching && <ReactSpinner type="grow" color="info" size="60" />}
