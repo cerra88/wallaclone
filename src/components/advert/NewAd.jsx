@@ -8,8 +8,8 @@ import { Nav, Navbar, Button, Form, ButtonGroup  } from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {fetchSingleAd, editAds} from '../../store/actions'
 import  '../../../node_modules/react-dropzone/examples/theme.css';
-import {MyDropzone} from './DragDrop'
 import Dropzone from 'react-dropzone'
+import { withSnackbar } from 'notistack';
 
 
 const { findAdByID, editAdvert, newAdvert, checkCookie, logOut } = api();
@@ -22,7 +22,7 @@ export class Editnew extends React.Component {
             name: "",
             description: "",
             type: "",
-            price: Number,
+            price: 0,
             tags: [],
             photo: "",
             user: "",
@@ -44,12 +44,12 @@ export class Editnew extends React.Component {
   componentDidMount(){
 
     checkCookie().then(cookie => {
-      console.log(cookie)
+      
       this.setState({
         advert: {
           ...this.state.advert,
-          user: cookie._id
-    
+          user: cookie._id,
+          
         },
         login: {
           ...this.state.login,
@@ -57,9 +57,14 @@ export class Editnew extends React.Component {
         }
         
       })
-     
-    }).catch(err =>
+      
+    }).catch(err =>{
       console.log(err)
+      console.log(this.state.login)
+      if(this.state.login.isLogged === false){
+        this.props.history.push("/advert");
+     }
+    }
     )
    
 
@@ -68,9 +73,12 @@ export class Editnew extends React.Component {
   onLogoutClick = () => {
     logOut().then(res => {
       this.setState({
-        isLogged: false,
-        username: '',
+        login: {
+          ...this.state.login,
+          isLogged: false,
+        }
       })
+      this.props.history.push("/advert");
     })
   }
 
@@ -95,7 +103,7 @@ export class Editnew extends React.Component {
   // }
 
 test = (file) => {
-  console.log(file)
+  
   this.setState({    
     advert: {
       ...this.state.advert,
@@ -106,6 +114,7 @@ test = (file) => {
 }
   onInputChange(event) {
     const { name, value } = event.target;
+    
     
     this.setState({
         advert:{
@@ -124,49 +133,57 @@ test = (file) => {
 
   onSubmit(event) {
     event.preventDefault();
-    console.log(this.state)
-    
-    // console.log(this.state.advert._id)
-    
-    
-    // if (this.state.edit === true) {
-    //   console.log('paso')
-    //   this.props.editAd(this.state.advert._id, this.state.advert)
+    console.log(this.state.advert)
+
+    if (this.state.advert.name.trim().length < 5 || this.state.advert.name.trim().length > 30 ) {
+      this.props.enqueueSnackbar('Name must be between 5 and 14 characters long', {variant: 'warning'});
+      return false;
+    }else if(!this.state.advert.description || this.state.advert.description.trim().length < 5 || this.state.advert.description.trim().length > 100){
+      this.props.enqueueSnackbar('Description must be between 5 and 100 characters long', {variant: 'warning'});
+      return false;
+    }else if(this.state.advert.price === 0 || this.state.advert.price < 0){
+      this.props.enqueueSnackbar('Price must be more than 0', {variant: 'warning'});
+      return false
+    }else if (!this.state.advert.photo){
+      this.props.enqueueSnackbar('Photo is required to upload your product', {variant: 'warning'});
+    }else {
+
+      newAdvert(this.state.advert).then(res => {
+        this.props.enqueueSnackbar('Product created!', {variant: 'success'});
+        this.setState({   //Una vez creamos el anuncio dejamos el formulario en blanco
+          advert: {
+            name: '',
+            description: '',
+            tags: [],
+            price: Number,
+            type: '',
+            photo: '',
+            user: '',
+          },
+        })
   
-    // }
-    
-    console.log(this.state)
-    
-    newAdvert(this.state.advert).then(res => {
-      alert('Advert have been created');
-      this.setState({   //Una vez creamos el anuncio dejamos el formulario en blanco
-        advert: {
-          name: '',
-          description: '',
-          tags: [],
-          price: Number,
-          type: '',
-          photo: '',
-          edit: false
-        },
-      })
+  
+      });
 
 
-    });
+    }
+    
+    
+    
+    
   }
   
   
 
   render(){
     const { advert } = this.state;
-    console.log(this.state)
-     if(!advert){
-       return null
+    
+   
+     if(this.state.login.isLogged === false){
+       return null && this.props.history.push("/advert");
      }
 
-     if(this.state.login.isLogged === false){
-        this.props.history.push("/advert");
-     }
+     
 
     return(
       <React.Fragment>
@@ -196,7 +213,7 @@ test = (file) => {
     <Form inline>
 
       {
-          this.state.isLogged === false ?
+          this.state.login.isLogged === false ?
           <ButtonGroup>
             <Link to={`/register`}><Button className="mr-sm-2 button is-primary is-outlined">register</Button></Link>
             <Link to={`/login`}><Button className="mr-sm-2 button is-primary">Login</Button></Link>
@@ -229,7 +246,7 @@ test = (file) => {
           <div className="field">
             <label className="label is-size-6"></label>
             <div className="control">
-                Titulo
+                Tittle
               <input className="input" type="text" value={advert.name}  name="name" onChange={this.onInputChange}/>
             </div>
           </div>
@@ -331,4 +348,4 @@ function mapStateToProps(state)  {
   }
 
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Editnew);
+export default withSnackbar (connect(mapStateToProps, mapDispatchToProps)(Editnew));

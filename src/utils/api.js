@@ -94,7 +94,7 @@ export const api = () => {
     
     newAdvert: async (advert) => {
       console.log(advert)
-      const endPoint = API_URL;
+      const endPoint = `/api/newad`;
 
       console.log(advert.user)
 
