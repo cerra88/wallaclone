@@ -3,7 +3,6 @@ import Register from "./components/Register/Register";
 import Login from "./components/Register/Login";
 import List from "./components/advert/List"
 import DetailAd from "./components/advert/DetailAd"
-
 import NewAd from "./components/advert/NewAd"
 import ErrorBoundary from "./components/advert/ErrorBundary"
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,6 +14,8 @@ import {Alert} from 'react-bootstrap';
 import ReactSpinner from 'react-bootstrap-spinner'
 import {fetchAds} from './store/actions'
 import { SnackbarProvider } from 'notistack';
+import EditAd from './components/advert/EditAd';
+
 
 
 export class App extends React.Component {
@@ -46,7 +47,7 @@ export class App extends React.Component {
               <Route exact path="/advert/:adId/:name" component={DetailAd} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
-              <Route exact path="/editnew/:adId" component={NewAd} />
+              <Route exact path="/editad/:adId" component={EditAd} />
               <Route exact path="/newad" component={NewAd} />
               <Route component={List}/>
           </Switch>

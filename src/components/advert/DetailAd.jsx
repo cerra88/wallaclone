@@ -206,7 +206,7 @@ export class DetailAd extends React.Component {
                       </div>
                      {
                           ad.user.username === this.state.username ?
-                          <div><Link to={`/advert`}> <Button variant="outline-secondary">Edit</Button></Link></div>
+                          <div><Link to={`/editad/${ad._id}`}> <Button variant="outline-secondary">Edit</Button></Link></div>
                           :
                           <span></span>
                      } 

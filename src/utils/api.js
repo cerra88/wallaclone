@@ -81,22 +81,40 @@ export const api = () => {
     },
 
     editAdvert: async (id, advert) => {
-      const endPoint = `http://localhost:3001/apiv1/anuncios/${id}`;
-      console.log('enpoint de edit es: ', endPoint)
+      console.log(id, advert)
+      const endPoint = `/api/editad`;
+
+      const formData = new FormData();
+      formData.append('id', id);
+      formData.append('name', advert.name);
+      formData.append('description', advert.description);
+      formData.append('type', advert.type);
+      formData.append('price', advert.price);
+      formData.append('tags', advert.tags);
+      formData.append('user', advert.user);
+      
+      if(advert.photo.slice(0, 6) === '/image'){
+        console.log('soy string')
+        formData.append('photo', advert.photo);
+      }else {
+        console.log('he modificado imagen')
+        formData.append('photo', advert.photo[0]); 
+      }
+
+      console.log([...formData])
+
 			const res = await axios({
         method: 'put',
         url: endPoint,
-        data: advert
+        data: formData
       });
-      return res;
+      return res.data;
         
     },
     
     newAdvert: async (advert) => {
       console.log(advert)
       const endPoint = `/api/newad`;
-
-      console.log(advert.user)
 
       const formData = new FormData();
       formData.append('name', advert.name);
@@ -107,7 +125,8 @@ export const api = () => {
       formData.append('user', advert.user);
       formData.append('photo', advert.photo[0]);
       
-      console.log(formData)
+      
+      
 			const res = await axios({
         method: 'post',
         url: endPoint,

@@ -57,6 +57,24 @@ export class Editnew extends React.Component {
         }
         
       })
+
+      if(this.state.login.isLogged === true){
+        findAdByID(this.props.match.params.adId).then(ad => 
+          this.setState({
+            advert: {
+                ...this.state.advert,
+                name: ad.name,
+                description: ad.description,
+                type: ad.type,
+                price: ad.price,
+                tags: ad.tags,
+                photo: ad.photo,
+                
+                
+            },
+         })
+        )
+      }
       
     }).catch(err =>{
       console.log(err)
@@ -82,25 +100,6 @@ export class Editnew extends React.Component {
     })
   }
 
-
-
-
-  // findByID = (adId) =>{
-  //   findAdByID(adId).then(ad => 
-  //     this.setState({
-  //       advert: {
-  //           adId: ad._id,
-  //           name: ad.name,
-  //           type: ad.type,
-  //           description: ad.description,
-  //           price: ad.price,
-  //           tags: ad.tags,
-  //           photo: ad.photo,
-  //           edit: true,
-  //       },
-  //    })
-  //   )
-  // }
 
 test = (file) => {
   
@@ -149,22 +148,34 @@ test = (file) => {
       this.props.enqueueSnackbar('Photo is required to upload your product', {variant: 'warning'});
     }else {
 
-      newAdvert(this.state.advert).then(res => {
-        this.props.enqueueSnackbar('Product created!', {variant: 'success'});
-        this.setState({   //Una vez creamos el anuncio dejamos el formulario en blanco
-          advert: {
-            name: '',
-            description: '',
-            tags: [],
-            price: Number,
-            type: '',
-            photo: '',
-            user: '',
-          },
-        })
+      editAdvert(this.props.match.params.adId, this.state.advert).then(res => {
+
+      }).catch(err =>{
+        console.log(err)
+        console.log(this.state.login)
+        if(this.state.login.isLogged === false){
+          this.props.history.push("/advert");
+       }
+      }
+      )}
+      
+
+      // newAdvert(this.state.advert).then(res => {
+      //   this.props.enqueueSnackbar('Product created!', {variant: 'success'});
+      //   this.setState({   //Una vez creamos el anuncio dejamos el formulario en blanco
+      //     advert: {
+      //       name: '',
+      //       description: '',
+      //       tags: [],
+      //       price: Number,
+      //       type: '',
+      //       photo: '',
+      //       user: '',
+      //     },
+      //   })
   
   
-      });
+      // });
 
 
     }
@@ -172,13 +183,12 @@ test = (file) => {
     
     
     
-  }
   
   
 
   render(){
     const { advert } = this.state;
-    
+    console.log(this.state)
    
      if(this.state.login.isLogged === false){
        return null && this.props.history.push("/advert");
@@ -242,13 +252,13 @@ test = (file) => {
         advert
         &&
         
-        <div className="formContainer">
+      <div className="formContainer">
         <form className="formHome"  onSubmit = {this.onSubmit}>
           <div className="field">
             <label className="label is-size-6"></label>
             <div className="control">
                 Tittle
-              <input className="input" type="text" value={advert.name}  name="name" onChange={this.onInputChange}/>
+              <input className="input" type="text" placeholder={advert.name} value={advert.name}  name="name" onChange={this.onInputChange}/>
             </div>
           </div>
 
@@ -256,7 +266,7 @@ test = (file) => {
             <label className="label"></label>
             <div className="control">
                 Description
-              <input className="input" type="text" placeholder={advert.description}  name="description" onChange={this.onInputChange} />
+              <input className="input" type="text" placeholder={advert.description} value={advert.description} name="description" onChange={this.onInputChange} />
             </div>
           </div>
 
@@ -264,7 +274,7 @@ test = (file) => {
             <label className="label"></label>
             <div className="control">
                 Price €:
-              <input className="input" type="number" placeholder={advert.price} name="price" onChange={this.onInputChange} />
+              <input className="input" type="number" placeholder={advert.price} value={advert.price}name="price" onChange={this.onInputChange} />
             </div>
           </div>
 
@@ -276,8 +286,8 @@ test = (file) => {
                 
                 <Form.Group controlId="tagSelect">
                 
-                <Form.Control as="select" name="type" size="" autoFocus={true} required="required" controlId="typeSelected" onChange={this.onInputChange}>
-                    <option className="field" value="" selected disabled></option>
+                <Form.Control as="select" name="type"  size="" autoFocus={true} required="required" controlId="typeSelected" onChange={this.onInputChange}>
+                    <option className="field"  placeholder={advert.type} selected disabled></option>
                     <option value="buy">buy</option>
                     <option value="sell">sell</option>
            
@@ -328,6 +338,9 @@ test = (file) => {
           
           </form>
         </div>
+
+        
+        
         
       }
      

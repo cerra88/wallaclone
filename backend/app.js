@@ -77,6 +77,7 @@ app.get('/api/logout', jwtAuth(), function(req, res) {
 // app.use('/api/product', jwtAuth(), require('./routes/api/products'));
 app.use('/api/product', require('./controllers/products'));
 app.use('/api/newad', jwtAuth(), require('./controllers/products'));
+app.use('/api/editad', require('./controllers/products'));
 app.use('/api/register', require('./controllers/users'));
 app.use('/api/checkuser', jwtAuth(), function(req, res){
   const user = {

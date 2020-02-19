@@ -123,7 +123,9 @@ router.post('/', upload.single('photo'), async (req, res, next) =>{
         console.log(data, file)
         // const product = new Product(data);
         const product = new Product({ tags: req.body.tags, name: req.body.name, description: req.body.description, type: req.body.type, price: req.body.price, user: req.body.user , photo: `/images/products/${req.file.filename}`});
+        console.log(product)
         const newProduct = await product.save();
+        
         res.json({success: true, result: newProduct});
         // Requester para generador de thumbnails
         const requester = new cote.Requester({ name: 'thumbgenerator client' });
@@ -137,6 +139,69 @@ router.post('/', upload.single('photo'), async (req, res, next) =>{
           })
 
         
+    } catch (err) {
+        next(err);
+    }
+
+
+});
+
+router.put('/', upload.single('photo'), async (req, res, next) =>{
+    try {
+        console.log('paso')
+        const {name, description, price, tags, type, photo, user} = req.body;
+        const file = req.file;
+       
+        if(file === undefined){
+            console.log('paso por photo como string')
+            const product = await Product.findById(req.body.id)
+            if (product){
+                product.name = name ? name : product.name;
+                product.description = description ? description : product.description;
+                product.price = price ? price : product.price;
+                product.type = type ? type : product.type;
+                product.photo = product.photo;
+                product.tags = tags ? tags : product.tags;
+                product.user = user;
+
+                const updatedProduct = await product.save()
+                res.json({success: true, result: updatedProduct});
+                return
+            }
+            
+    
+        }else{
+            console.log('paso por photo como fichero')
+            
+            // const product = new Product({ tags: req.body.tags, name: req.body.name, description: req.body.description, type: req.body.type, price: req.body.price, user: req.body.user , photo: `/images/products/${req.file.filename}`});
+            // const newProduct = await product.save();
+            const product = await Product.findById(req.body.id)
+            if (product){
+                product.name = name ? name : product.name;
+                product.description = description ? description : product.description;
+                product.price = price ? price : product.price;
+                product.type = type ? type : product.type;
+                product.photo = `/images/products/${req.file.filename}`;
+                product.tags = tags ? tags : product.tags;
+                product.user = user;
+
+                const updatedProduct = await product.save()
+                console.log(updatedProduct)
+                res.json({success: true, result: updatedProduct});
+                // Requester para generador de thumbnails
+                const requester = new cote.Requester({ name: 'thumbgenerator client' });
+                requester.send({
+                    type: 'thumbnails',
+                    file: file,
+                    filename: file.filename,
+                    path: file.path,
+                }, response => {
+                    console.log(`responde el cliente --> ${response}`);
+                })
+
+                return
+            }
+        }
     } catch (err) {
         next(err);
     }
