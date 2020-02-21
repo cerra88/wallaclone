@@ -50,16 +50,16 @@ export class Login extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state);
+    console.log(this.state.user);
     console.log(this.props);
     const emailPattern =  /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     const emailLowerCase = this.state.user.email.toLowerCase();
 
-    if (this.state.user.username.trim().length < 5 || this.state.user.username.trim().length > 14 ) {
+    if (this.state.user.username.trim().length < 4 && this.state.user.username.trim().length > 15 ) {
       this.props.enqueueSnackbar('Username must be between 5 and 14 characters long', {variant: 'warning'});
     }else if (emailPattern.test(emailLowerCase) !== true) {
       this.props.enqueueSnackbar('You must enter a valid email', {variant: 'error'});
-    }else if(!this.state.user.password || this.state.user.password.trim().length < 5 || this.state.user.password.trim().length > 14){
+    }else if(this.state.user.pass.trim().length < 5 && this.state.user.pass.trim().length > 14){
       this.props.enqueueSnackbar('The password must be between 5 and 14 characters long', {variant: 'warning'});
     }else {
 
@@ -87,6 +87,7 @@ export class Login extends React.Component {
         [name]: value
       }
     });
+    console.log(name, value)
   };
 
 

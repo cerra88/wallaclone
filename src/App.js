@@ -15,6 +15,7 @@ import ReactSpinner from 'react-bootstrap-spinner'
 import {fetchAds} from './store/actions'
 import { SnackbarProvider } from 'notistack';
 import EditAd from './components/advert/EditAd';
+import { MyAds } from './components/advert/MyAds';
 
 
 
@@ -49,6 +50,7 @@ export class App extends React.Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/editad/:adId" component={EditAd} />
               <Route exact path="/newad" component={NewAd} />
+              <Route exact path="/myads" component={MyAds} />
               <Route component={List}/>
           </Switch>
         </Router>

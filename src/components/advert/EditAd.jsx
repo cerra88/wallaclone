@@ -149,6 +149,7 @@ test = (file) => {
     }else {
 
       editAdvert(this.props.match.params.adId, this.state.advert).then(res => {
+        this.props.enqueueSnackbar('You´ve edited your product', {variant: 'success'});
 
       }).catch(err =>{
         console.log(err)
@@ -224,7 +225,7 @@ test = (file) => {
     <Form inline>
 
       {
-          this.state.login.isLogged === false ?
+          this.state.isLogged === false ?
           <ButtonGroup>
             <Link to={`/register`}><Button className="mr-sm-2 button is-primary is-outlined">register</Button></Link>
             <Link to={`/login`}><Button className="mr-sm-2 button is-primary">Login</Button></Link>
@@ -234,7 +235,7 @@ test = (file) => {
           :
           <ButtonGroup>
             <Link to={`/newad`}><Button  className="mr-sm-2 button is-primary is-outlined"   >New product</Button></Link>
-            <Button  className="mr-sm-2 button is-primary is-outlined"   >My ads</Button>
+            <Link to={`/myads`}><Button  className="mr-sm-2 button is-primary is-outlined"   >My ads</Button></Link>
             <Button className="mr-sm-2 button is-warning is-outlined" onClick={this.onLogoutClick} >Logout</Button>
           </ButtonGroup>
       }

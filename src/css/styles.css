@@ -16,6 +16,10 @@
         
     }
 
+    .customDeleted{
+        margin-top: 8px;
+    }
+
     .formHome{
         display: flex;
         flex-direction: column;

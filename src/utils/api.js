@@ -17,14 +17,30 @@ export const api = () => {
     
     getAds: async (query) => {
         try {
-          const response = await axios.get(`${API_URL}?sort=-createdAt`);
+          const endPoint = `${API_URL}?sort=-createdAt`
+          const response = await axios.get(endPoint);
           return response.data.result;  
         } catch (error) {
           throw(error)
         }
-        
-
     },
+
+
+    getAdsByUser: async (id) => {
+      console.log(id)
+      try {
+        const endPoint = `/api/user/${id}`
+          console.log(endPoint)
+        const response = await axios.get(endPoint);
+
+        return response.data.result;  
+      } catch (error) {
+        throw(error)
+      }
+      
+
+  },
+
 
     getAdsbySearch: async (name, price, tagSelected, type) => {
         
@@ -73,10 +89,6 @@ export const api = () => {
         } catch (error) {
           throw(error)
         }
-        
-        
-        
-        
 
     },
 
@@ -133,6 +145,19 @@ export const api = () => {
         data: formData
       });
       console.log(res.data)
+      return res.data;
+    },
+
+
+    deleteAdvert: async (id) => {
+      console.log(id)
+      const endPoint = `${API_URL}/item/${id}`;
+
+      const res = await axios({
+        method: 'delete',
+        url: endPoint,
+        data: null,
+      });
       return res.data;
     },
 

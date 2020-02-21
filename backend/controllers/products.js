@@ -20,6 +20,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.get('/', async (req, res, next) =>{
+    console.log('paso')
 try {
     //Utilizamos el .query ya que son parametros marcados en la url despues de URL?parametros
     const name = req.query.name;
@@ -108,6 +109,26 @@ router.get('/item/:id', async (req, res, next) => {
     }
   });
 
+
+
+  router.delete('/item/:id',  async (req, res, next) =>{
+    try {
+        
+        const {id} = req.params;
+        console.log(id);
+        
+        
+        const product = await Product.findByIdAndRemove(id)
+        console.log("producto borrado: ", product)
+        res.json({success: true, result: product});
+
+        
+    } catch (err) {
+        next(err);
+    }
+
+
+});
 
 
 

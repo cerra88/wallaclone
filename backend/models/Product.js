@@ -7,12 +7,12 @@ const Schema = mongoose.Schema;
 
 const productSchema = mongoose.Schema(
     {
-        name:           String,
+        name:           {type: String, index: true},
         description:    String,
-        type:           String,
-        price:          Number,
-        photo:          String,
-        tags:           Array,
+        type:           {type: String, index: true, required: true},
+        price:          {type: Number, required: true},
+        photo:          {type: String, required: true},
+        tags:           {type: Array, index: true,},
         //Relacion con la tabla user
         user:           { type: Schema.ObjectId, ref: "User" },
     },  
@@ -33,7 +33,7 @@ productSchema.statics.list = function({filter, skip, limit, fields, sort}, usern
     query.limit(limit);
     query.select(fields);
     query.sort(sort);
-    query.populate('user');
+    query.populate({path: 'user', select: ['email', 'username']});
     return query.exec();
 };
 

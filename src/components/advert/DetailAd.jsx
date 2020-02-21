@@ -11,7 +11,7 @@ import Moment from 'react-moment';
 
 import { Nav, Navbar, Button, ButtonToolbar, Form, FormControl, ButtonGroup  } from 'react-bootstrap';
 
-const {logOut, checkCookie } = api();
+const {logOut, checkCookie, deleteAdvert } = api();
 
 
 // const { findAdByID } = api();
@@ -70,11 +70,27 @@ export class DetailAd extends React.Component {
       })
     })
   }
+
+
+  
+
   
 
   dateFromObjectId = (objectId) => {
     return new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
 };
+
+onDeleteClick = () => {
+  const id = this.props.match.params.adId;
+  console.log("paso y el id es: ", id)
+  deleteAdvert(id).then(res => {
+    this.props.enqueueSnackbar('Product deleted', {variant: 'success'});
+    this.props.history.push("/advert");
+
+    }).catch(err => {
+      this.props.enqueueSnackbar('An error occurred during delete your product', {variant: 'error'});
+    })
+  }
 
   render(){
     // const { ad } = this.state;
@@ -128,7 +144,7 @@ export class DetailAd extends React.Component {
           :
           <ButtonGroup>
             <Link to={`/newad`}><Button  className="mr-sm-2 button is-primary is-outlined"   >New product</Button></Link>
-            <Button  className="mr-sm-2 button is-primary is-outlined"   >My ads</Button>
+            <Link to={`/myads`}><Button  className="mr-sm-2 button is-primary is-outlined"   >My ads</Button></Link>
             <Button className="mr-sm-2 button is-warning is-outlined" onClick={this.onLogoutClick} >Logout</Button>
           </ButtonGroup>
       }
@@ -206,8 +222,12 @@ export class DetailAd extends React.Component {
                       </div>
                      {
                           ad.user.username === this.state.username ?
-                          <div><Link to={`/editad/${ad._id}`}> <Button variant="outline-secondary">Edit</Button></Link></div>
+                          <React.Fragment>
+                          <div><Link to={`/editad/${ad._id}`}> <Button className="mr-sm-2 button is-outlined is-info" variant="outline-secondary">Edit</Button></Link></div>
+                          <div><Button className="mr-sm-2 button is-danger is-outlined customDeleted" style={{}} onClick={this.onDeleteClick}>Delete</Button></div>
+                          </React.Fragment>
                           :
+
                           <span></span>
                      } 
                       
@@ -220,7 +240,7 @@ export class DetailAd extends React.Component {
               <text><Moment format="DD/MM/YYYY HH:mm">{this.dateFromObjectId(ad._id)}</Moment></text>
 
               {/* <FacebookShareCount url={'https://es-es.facebook.com/wallapop'}/> */}
-              <Link to={`/advert`}><FaArrowLeft size="2em" color="black"></FaArrowLeft></Link>
+              {/* <Link to={`/advert`}><FaArrowLeft size="2em" color="black"></FaArrowLeft></Link> */}
             
                 <div className="level-left">
                   

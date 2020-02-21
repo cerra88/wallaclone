@@ -16,14 +16,15 @@ import { fetchSearchAds } from '../../store/actions'
 
 
 
-const {findAds, getTags, checkCookie, getAds, getAdsbySearch, logOut } = api();
+const {findAds, getTags, checkCookie, getAds, getAdsbySearch, logOut, getAdsByUser } = api();
 
-export class Adverts extends React.Component {
+export class MyAds extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: "",
       ads:[],
-      tags:[],
+      userAds: [],
       tagSelected:"",
       price:"",
       type:"",
@@ -41,23 +42,21 @@ export class Adverts extends React.Component {
   
 
   componentDidMount(){
-    console.log(this.state)
+    
     checkCookie().then(user => {
-      console.log(user)
       this.setState({
         isLogged: true,
         username: user.username,
-        
+        id: user._id
       })
+      this.myAds();
     }).catch(err =>
       console.log(err)
     )
   
+    // this.myTags();
     
     
-    this.myTags();
-    this.myAds();
-    console.log(this.state)
     
   }
 
@@ -67,29 +66,32 @@ export class Adverts extends React.Component {
         isLogged: false,
         username: '',
       })
+      this.props.history.push("/advert");
+    }).catch(err => {
+        
     })
+    
+    // this.props.history.pushState(null, '/advert');
   }
   
   
-  myTags = () => {
-    getTags().then (tag => 
-        this.setState({
-            tags: tag,
-          })
-        );
+//   myTags = () => {
+//     getTags().then (tag => 
+//         this.setState({
+//             tags: tag,
+//           })
+//         );       
+// }
 
-        
-}
-
-resetAds = () => {
-  window.location.reload();
-  // this.props.history.push('/advert')
-  // getAds().then (ad =>
-  //     this.setState({
-  //       ads: ad
-  //     })
-  //   );
-}
+// resetAds = () => {
+//   window.location.reload();
+//   // this.props.history.push('/advert')
+//   // getAds().then (ad =>
+//   //     this.setState({
+//   //       ads: ad
+//   //     })
+//   //   );
+// }
 
 
 myAds = () => {
@@ -101,11 +103,14 @@ myAds = () => {
       // }
         
         // if(this.props.user.tags === this.props.ads.tag)
-        getAds().then(ad =>
-          this.setState({
-            ads: ad
-          })
+        console.log(this.state.id)
+        getAdsByUser(this.state.id).then(ad =>
+                this.setState({
+                    ads: ad
+                  })
+          
         );
+    
        
   
   };
@@ -113,60 +118,59 @@ myAds = () => {
  
 
 
-  mySearch = () => {
-    console.log(this.state.ads);
-    console.log(this.state);
-    console.log(this.state.tags);
+//   mySearch = () => {
+//     console.log(this.state.ads);
+//     console.log(this.state.tags);
 
-    const {name, price, tagSelected, type} = this.state;
+//     const {name, price, tagSelected, type} = this.state;
 
-    // this.props.searchAds(name, price, tagSelected, venta)
+//     // this.props.searchAds(name, price, tagSelected, venta)
     
 
-      // this.props.searchAds(name, price, tagSelected, type).then(ad =>
-      // this.setState({
-      //   ads: ad
-      // }),  
-    // );
+//       // this.props.searchAds(name, price, tagSelected, type).then(ad =>
+//       // this.setState({
+//       //   ads: ad
+//       // }),  
+//     // );
 
-    getAdsbySearch(name, price, tagSelected, type).then(ad =>
-      this.setState({
-        ads: ad
-      })
-    );
+//     getAdsbySearch(name, price, tagSelected, type).then(ad =>
+//       this.setState({
+//         ads: ad
+//       })
+//     );
 
     
-  }
+//   }
   
 
 
-  search = (event) => {
-    const query = event.target.value;
-    if (query !== ''){
-      return findAds(query).then(ad => this.setState({
-        ads: ad
-      }))
-    }
-    this.myAds();
+//   search = (event) => {
+//     const query = event.target.value;
+//     if (query !== ''){
+//       return findAds(query).then(ad => this.setState({
+//         ads: ad
+//       }))
+//     }
+//     this.myAds();
     
-  }
+//   }
 
-  onSubmit = (event) => {
-    event.preventDefault();
+//   onSubmit = (event) => {
+//     event.preventDefault();
     
-    this.mySearch();
+//     this.mySearch();
 
     
-  }
+//   }
 
-  onInputChange = (event) => {
-    const {name, value} = event.target;
-    console.log(name, value)
-    this.setState({
-        [name]: value
-      }
-    );
-  };
+//   onInputChange = (event) => {
+//     const {name, value} = event.target;
+//     console.log(name, value)
+//     this.setState({
+//         [name]: value
+//       }
+//     );
+//   };
 
   
 
@@ -180,13 +184,17 @@ myAds = () => {
 
 
   render() {
+    console.log(this.state)
     const { ads } = this.state;
+    
+    const adsFiltered = ads.filter(ad => ad.user !== null)
+    console.log('ads filter: ', adsFiltered)
 
-    const indexOfLastAds = this.state.currentPage * this.state.postsPerPage;
-    const indexOfFirstAds = indexOfLastAds - this.state.postsPerPage;
-    const currentAds = ads.slice(indexOfFirstAds, indexOfLastAds);
+    // const indexOfLastAds = this.state.currentPage * this.state.postsPerPage;
+    // const indexOfFirstAds = indexOfLastAds - this.state.postsPerPage;
+    // const currentAds = ads.slice(indexOfFirstAds, indexOfLastAds);
     // const  ads  = this.props.ads;
-    const { tags } = this.state;
+    // const { tags } = this.state;
     // const searchAd = this.props.searchAd
     // console.log(searchAd)
     
@@ -250,7 +258,7 @@ myAds = () => {
 {/**********************  NAVBAR ***************************************/}
 
 
-
+{/* 
 <Form  className="advancedSearch" onSubmit = {this.onSubmit} >
       <Form.Row>
         <Form.Group as={Col}  controlId="validationCustom01">
@@ -311,12 +319,14 @@ myAds = () => {
       <Button className="buttonAdvancedSearc" variant="outline-info" type="submit">Search</Button>
       <br></br>
       <Button className="buttonReset" variant="outline-secondary" type="reset" onClick={this.resetAds}>Reset</Button>
-    </Form>
+    </Form> */}
         {
-            ads 
+            adsFiltered
+
             && 
-            
-              <AdsList ads={currentAds} />
+              <AdsList ads={adsFiltered} />
+              
+              
         }
           <Pagination style={{ display: 'flex', justifyContent: 'center' }} onChange={this.onPageChange} current={this.state.currentPage} total={ Math.ceil(this.state.ads.length / this.state.postsPerPage)*10 } />
         
@@ -346,6 +356,6 @@ function mapStateToProps(state)  {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Adverts);
+export default connect(mapStateToProps, mapDispatchToProps)(MyAds);
 
 // Adverts.contextType = UserContext;
