@@ -2,6 +2,12 @@
 
 ## NodeJS - Express - MongoDB - REACT - REDUX
 
+## APP DEPLOYED:
+
+```bash
+http://ec2-63-32-168-143.eu-west-1.compute.amazonaws.com/
+```
+
 
 ## Introduction
 
