@@ -1,68 +1,54 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# FINAL CHALLENGE FULLSTACK WEB DEVELOPMENT BOOTCAMP VII EDITION
 
-## Available Scripts
+## NodeJS - Express - MongoDB - REACT - REDUX
 
-In the project directory, you can run:
 
-### `npm start`
+## Introduction
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Wallaclone is an SPA APP created with Node and Express on the Back-end (API REST) and React on the Front-end.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+This app is design for connect people who wants to sell & buy specific products on a simple, quick and safe way.
 
-### `npm test`
+Wallaclone is a responsive app which can be used on any device and also secure because we implement the last security methods such as JWT for encode all information betweet the client and server.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The users could filter information by name, tags, price, and ads type (selling or buying). If you create an account you could upload your own products, edit them and delete when you've selled or buyed it.
 
-### `npm run build`
+## Requirements 
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* MongoDB
+* Cote https://github.com/dashersw/cote
+* Jimp https://github.com/oliver-moran/jimp
+* Node and NPM
+* Git 
+* JsonWebToken https://github.com/auth0/node-jsonwebtoken
+* cross-env (use environment variables across platforms) https://github.com/kentcdodds/cross-env
+* React
+* Redux
+* Axios
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Configure & Install
 
-### `npm run eject`
+* Clone Repo with https://github.com/cerra88/wallaclone
+* Enter on /backup and execute `npm install` command (for install all back-end modules and dependencies)
+* Enter on / and execute `npm install` command (for install allfront-end modules and dependencies)
+* Make sure MongoDB server is running. After that you should execute:
+ `npm run insertDB` (this command import data of "fake ads")
+ `npm run insertUser` (this command import test's users)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+* Finally execute `npm start` on `/` and `/backend` folfers for initialize the app.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Note: By default , backend is running in port 3001 and frontend on port 3000. 
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-### Analyzing the Bundle Size
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
 
-### Making a Progressive Web App
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-### Advanced Configuration
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
