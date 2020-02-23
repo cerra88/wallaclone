@@ -32,9 +32,9 @@ The users could filter information by name, tags, price, and ads type (selling o
 * Clone Repo with https://github.com/cerra88/wallaclone
 * Enter on /backup and execute `npm install` command (for install all back-end modules and dependencies)
 * Enter on / and execute `npm install` command (for install allfront-end modules and dependencies)
-* Make sure MongoDB server is running. After that you should execute:
+* Make sure MongoDB server is running. After that you must go to `/backend` folder and execute:
  `npm run insertDB` (this command import data of "fake ads")
- `npm run insertUser` (this command import test's users)
+ `npm run insertUser` (this command import test user's)
 
 * Finally execute `npm start` on `/` and `/backend` folfers for initialize the app.
 
